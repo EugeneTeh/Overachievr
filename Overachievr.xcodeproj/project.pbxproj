@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3327E0C01F2AF9D41DB52E2E /* Pods_Overachievr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */; };
 		A77135E41B807DB60065A24E /* OverachievrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135E31B807DB60065A24E /* OverachievrTests.swift */; };
 		A77135EE1B807E110065A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77135ED1B807E110065A24E /* Main.storyboard */; };
@@ -25,13 +26,10 @@
 		A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136111B807ED50065A24E /* CustomCellHelper.swift */; };
 		A771361A1B807EEB0065A24E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77136181B807EEB0065A24E /* Images.xcassets */; };
 		A771361B1B807EEB0065A24E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A77136191B807EEB0065A24E /* LaunchScreen.xib */; };
-		A771361E1B807F580065A24E /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = A771361D1B807F580065A24E /* SwiftyJSON.swift */; };
 		A7E0E2001B808293006FCBAB /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E1FE1B808293006FCBAB /* Realm.framework */; };
 		A7E0E2011B808293006FCBAB /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E1FE1B808293006FCBAB /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7E0E2021B808293006FCBAB /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E1FF1B808293006FCBAB /* RealmSwift.framework */; };
 		A7E0E2031B808293006FCBAB /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E1FF1B808293006FCBAB /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A7E0E2061B8082F3006FCBAB /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E2041B8082F3006FCBAB /* FBSDKCoreKit.framework */; };
-		A7E0E2071B8082F3006FCBAB /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E2051B8082F3006FCBAB /* FBSDKLoginKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +58,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Overachievr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135C51B807DB60065A24E /* Overachievr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overachievr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135CD1B807DB60065A24E /* Overachievr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Overachievr.xcdatamodel; sourceTree = "<group>"; };
 		A77135DD1B807DB60065A24E /* OverachievrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverachievrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,11 +82,10 @@
 		A77136111B807ED50065A24E /* CustomCellHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCellHelper.swift; sourceTree = "<group>"; };
 		A77136181B807EEB0065A24E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A77136191B807EEB0065A24E /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		A771361D1B807F580065A24E /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		A7E0E1FE1B808293006FCBAB /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		A7E0E1FF1B808293006FCBAB /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
-		A7E0E2041B8082F3006FCBAB /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		A7E0E2051B8082F3006FCBAB /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		B724DF12F53EE3459E67EF35 /* Pods-Overachievr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Overachievr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr.debug.xcconfig"; sourceTree = "<group>"; };
+		BA1A9CFD5040823D0B17657E /* Pods-Overachievr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Overachievr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,9 +94,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7E0E2021B808293006FCBAB /* RealmSwift.framework in Frameworks */,
-				A7E0E2061B8082F3006FCBAB /* FBSDKCoreKit.framework in Frameworks */,
-				A7E0E2071B8082F3006FCBAB /* FBSDKLoginKit.framework in Frameworks */,
 				A7E0E2001B808293006FCBAB /* Realm.framework in Frameworks */,
+				3327E0C01F2AF9D41DB52E2E /* Pods_Overachievr.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +116,7 @@
 				A77135E01B807DB60065A24E /* OverachievrTests */,
 				A77135C61B807DB60065A24E /* Products */,
 				A771361C1B807F390065A24E /* Frameworks */,
+				B5099C8D9458B2615D2CB7C0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -219,11 +217,18 @@
 			children = (
 				A7E0E1FE1B808293006FCBAB /* Realm.framework */,
 				A7E0E1FF1B808293006FCBAB /* RealmSwift.framework */,
-				A7E0E2041B8082F3006FCBAB /* FBSDKCoreKit.framework */,
-				A7E0E2051B8082F3006FCBAB /* FBSDKLoginKit.framework */,
-				A771361D1B807F580065A24E /* SwiftyJSON.swift */,
+				2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B5099C8D9458B2615D2CB7C0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B724DF12F53EE3459E67EF35 /* Pods-Overachievr.debug.xcconfig */,
+				BA1A9CFD5040823D0B17657E /* Pods-Overachievr.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,10 +238,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A77135E71B807DB60065A24E /* Build configuration list for PBXNativeTarget "Overachievr" */;
 			buildPhases = (
+				2D9F4D0BC5B150CFA058B352 /* Check Pods Manifest.lock */,
 				A77135C11B807DB60065A24E /* Sources */,
 				A77135C21B807DB60065A24E /* Frameworks */,
 				A77135C31B807DB60065A24E /* Resources */,
 				A7E0E1FB1B8081EA006FCBAB /* Embed Frameworks */,
+				A706F4D71B81319200ADA085 /* ShellScript */,
+				7889902D8122EC8FC5AC03D0 /* Embed Pods Frameworks */,
+				DF1ED9E9A6793DFEAD2959CF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -322,6 +331,67 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2D9F4D0BC5B150CFA058B352 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7889902D8122EC8FC5AC03D0 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A706F4D71B81319200ADA085 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
+		};
+		DF1ED9E9A6793DFEAD2959CF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A77135C11B807DB60065A24E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -330,7 +400,6 @@
 				A771360A1B807EBF0065A24E /* Contacts.swift in Sources */,
 				A77136021B807E7E0065A24E /* AppDelegate.swift in Sources */,
 				A77135F61B807E2E0065A24E /* TasksMainVC.swift in Sources */,
-				A771361E1B807F580065A24E /* SwiftyJSON.swift in Sources */,
 				A77136131B807ED50065A24E /* AddressBookHelper.swift in Sources */,
 				A77136161B807ED50065A24E /* DateTimeHelper.swift in Sources */,
 				A77136141B807ED50065A24E /* AuthenticationHelper.swift in Sources */,
@@ -447,13 +516,13 @@
 		};
 		A77135E81B807DB60065A24E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B724DF12F53EE3459E67EF35 /* Pods-Overachievr.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"/Users/eugeneteh/Downloads/FacebookTutorial-Swift12-FB4.1.0/FacebookTutorial",
 				);
 				INFOPLIST_FILE = Overachievr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -465,13 +534,13 @@
 		};
 		A77135E91B807DB60065A24E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA1A9CFD5040823D0B17657E /* Pods-Overachievr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"/Users/eugeneteh/Downloads/FacebookTutorial-Swift12-FB4.1.0/FacebookTutorial",
 				);
 				INFOPLIST_FILE = Overachievr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

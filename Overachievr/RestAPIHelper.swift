@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias ServiceResponse = (JSON, NSError?) -> Void
+//typealias ServiceResponse = (JSON, NSError?) -> Void
 
 class RestAPIHelper {
     

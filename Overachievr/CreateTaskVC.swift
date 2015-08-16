@@ -8,7 +8,7 @@
 
 import UIKit
 import RealmSwift
-//import Alamofire
+import Alamofire
 
 
 class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
@@ -119,9 +119,9 @@ class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
             
             realm.write {realm.add(taskObject)}
 
-            let newTaskJSON = JSON(taskObject.toDictionary())
+            let newTask = taskObject.toDictionary() as? [String : AnyObject]
             
-            //Alamofire.request(.POST, "http://52.25.48.116:9000/tasks", parameters: taskObject.toDictionary(), encoding: .JSON)
+            Alamofire.request(.POST, "http://52.25.48.116:9000/tasks", parameters: newTask, encoding: .JSON)
 
         }
         
