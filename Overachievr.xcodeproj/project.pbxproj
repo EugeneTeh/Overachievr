@@ -144,10 +144,10 @@
 		A77135C81B807DB60065A24E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A77136001B807E7E0065A24E /* AppDelegate.swift */,
 				A77136181B807EEB0065A24E /* Images.xcassets */,
 				A77136191B807EEB0065A24E /* LaunchScreen.xib */,
 				A77135EF1B807E2D0065A24E /* Overachievr-Bridging-Header.h */,
-				A77136001B807E7E0065A24E /* AppDelegate.swift */,
 				A77136011B807E7E0065A24E /* Info.plist */,
 			);
 			name = "Supporting Files";

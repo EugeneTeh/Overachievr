@@ -21,7 +21,7 @@ class Authentication {
     let loginVC = "LoginVC"
     
     func getLoginSource () -> String {
-        if let source = defaults.valueForKey("loggedInVia") as? String {
+        if let source = defaults.valueForKey("Overachievr_loggedInVia") as? String {
             return source
         } else {
             return ""
@@ -41,6 +41,30 @@ class Authentication {
     
     func goToIntialVC () {
         self.appDel.window?.rootViewController = self.mainStoryboard.instantiateInitialViewController() as? UIViewController
+    }
+    
+    func setDeviceToken(token: String) {
+        self.defaults.setObject(token, forKey: "Overachievr_APNToken")
+    }
+    
+    func setServerUserInfo() {
+        if self.getLoginSource() == LoginSource.Facebook.rawValue {
+            for key in self.defaults.dictionaryRepresentation().keys {
+                
+                println(key)
+            }
+            let firstTimeUser = self.defaults.boolForKey("Overachievr_FirstLaunch")
+            if firstTimeUser {
+                self.defaults.setObject(true, forKey: "Overachievr_FirstLaunch")
+            }
+            
+        }
+    }
+    
+    func registerForAPNS(application: UIApplication) {
+        var settings = UIUserNotificationSettings(forTypes: .Badge | .Alert | .Sound, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
     }
 }
 
@@ -92,13 +116,13 @@ class FacebookAuth: Authentication {
                 } else {
                     let fbRequestResults = result as! NSDictionary
                     
-                    self.defaults.setObject(LoginSource.Facebook.rawValue, forKey: "loggedInVia")
+                    self.defaults.setObject(LoginSource.Facebook.rawValue, forKey: "Overachievr_loggedInVia")
+                    
                     for (key, value) in fbRequestResults {
-                        let newKey = ("fb_\(key)")
+                        let newKey = ("Overachievr_fb_\(key)")
                         self.defaults.setObject(value, forKey: newKey)
                         
                         self.defaults.synchronize()
-                        //println("\(newKey): \(fbDefaults.objectForKey(newKey))")
                     }
                     
 
@@ -108,8 +132,8 @@ class FacebookAuth: Authentication {
     }
 
     func getFBNSUserDefaults() -> (fbName: String, fbEmail: String) {
-        if let fbName = defaults.valueForKey("fb_name") as? String,
-            fbEmail = defaults.valueForKey("fb_email") as? String {
+        if let fbName = defaults.valueForKey("Overachievr_fb_name") as? String,
+            fbEmail = defaults.valueForKey("Overachievr_fb_email") as? String {
                 return (fbName,fbEmail)
         } else {
             return ("","")

@@ -32,6 +32,7 @@ class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
             
             let authentication = FacebookAuth()
             if authentication.getLoginSource() == LoginSource.Facebook.rawValue {
+                
                 assigneeCell.textLabel?.text = authentication.getFBNSUserDefaults().fbName
                 assigneeCell.detailTextLabel?.text = authentication.getFBNSUserDefaults().fbEmail
             }
@@ -121,7 +122,7 @@ class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
 
             let newTask = taskObject.toDictionary() as? [String : AnyObject]
             
-            Alamofire.request(.POST, "http://52.25.48.116:9000/tasks", parameters: newTask, encoding: .JSON)
+            Alamofire.request(.POST, "http://52.25.48.116:9000/api/tasks/create", parameters: newTask, encoding: .JSON)
 
         }
         

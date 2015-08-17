@@ -53,12 +53,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fbAuthCheck = FacebookAuth()
         
         if fbAuthCheck.fbAccessTokenAvailable {
+            Authentication().registerForAPNS(application)
+            Authentication().setServerUserInfo()
             fbAuthCheck.goToIntialVC()
         } else {
             fbAuthCheck.goToLoginVC()
         }
         
     }
+    
+
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        Authentication().setDeviceToken(deviceToken.description)
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println(error.localizedDescription)
+    }
+
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

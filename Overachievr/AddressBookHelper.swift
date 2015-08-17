@@ -56,22 +56,25 @@ class AddressBook {
     
     func getContact(addressBookRecord: ABRecordRef) {
         let realm = Realm()
-        let contactObject = Contacts()
+        
         
         let emailArray:ABMultiValueRef = extractABEmailRef(ABRecordCopyValue(addressBookRecord, kABPersonEmailProperty))!
         
         for (var j = 0; j < ABMultiValueGetCount(emailArray); ++j) {
             var emailAdd = ABMultiValueCopyValueAtIndex(emailArray, j)
             var email = extractABEmailAddress(emailAdd)
-            let predicate = NSPredicate(format: "contactEmail = %@", email!)
             
             // check email validity
             if email?.rangeOfString("@") != nil {
+                let contactObject = Contacts()
                 let name = getContactName(addressBookRecord)
                 
-                let contactExists = realm.objects(Contacts).filter(predicate).count
+                let contactExists = realm.objects(Contacts).filter("contactEmail = '\(email!)'").count
+                println(contactExists)
+
                 
                 if contactExists < 1 {
+
                     contactObject.contactEmail = email!
                     contactObject.contactName = name
                     
