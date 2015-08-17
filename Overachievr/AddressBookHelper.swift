@@ -70,7 +70,6 @@ class AddressBook {
                 let name = getContactName(addressBookRecord)
                 
                 let contactExists = realm.objects(Contacts).filter("contactEmail = '\(email!)'").count
-                println(contactExists)
 
                 
                 if contactExists < 1 {

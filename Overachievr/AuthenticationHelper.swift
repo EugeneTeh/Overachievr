@@ -14,6 +14,14 @@ enum LoginSource: String {
     case Facebook = "Facebook"
 }
 
+enum CustomKeys: String {
+    case Prefix = "Overachievr_"
+    case FBPrefix = "FB_"
+    case loggedInVia = "loggedInVia"
+    case APNToken = "APNToken"
+    case FirstTimeUser = "FirstTimeUser"
+}
+
 class Authentication {
     var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -21,7 +29,7 @@ class Authentication {
     let loginVC = "LoginVC"
     
     func getLoginSource () -> String {
-        if let source = defaults.valueForKey("Overachievr_loggedInVia") as? String {
+        if let source = defaults.valueForKey("\(CustomKeys.Prefix.rawValue)\(CustomKeys.loggedInVia.rawValue)") as? String {
             return source
         } else {
             return ""
@@ -44,18 +52,18 @@ class Authentication {
     }
     
     func setDeviceToken(token: String) {
-        self.defaults.setObject(token, forKey: "Overachievr_APNToken")
+        self.defaults.setObject(token, forKey: "\(CustomKeys.Prefix.rawValue)\(CustomKeys.APNToken.rawValue)")
     }
     
     func setServerUserInfo() {
         if self.getLoginSource() == LoginSource.Facebook.rawValue {
             for key in self.defaults.dictionaryRepresentation().keys {
                 
-                println(key)
+                //println(key)
             }
-            let firstTimeUser = self.defaults.boolForKey("Overachievr_FirstLaunch")
+            let firstTimeUser = self.defaults.boolForKey("\(CustomKeys.Prefix.rawValue)\(CustomKeys.FirstTimeUser.rawValue)")
             if firstTimeUser {
-                self.defaults.setObject(true, forKey: "Overachievr_FirstLaunch")
+                self.defaults.setObject(true, forKey: "\(CustomKeys.Prefix.rawValue)\(CustomKeys.FirstTimeUser.rawValue)")
             }
             
         }
@@ -116,12 +124,11 @@ class FacebookAuth: Authentication {
                 } else {
                     let fbRequestResults = result as! NSDictionary
                     
-                    self.defaults.setObject(LoginSource.Facebook.rawValue, forKey: "Overachievr_loggedInVia")
+                    self.defaults.setObject(LoginSource.Facebook.rawValue, forKey: "\(CustomKeys.Prefix.rawValue)\(CustomKeys.loggedInVia.rawValue)")
                     
                     for (key, value) in fbRequestResults {
-                        let newKey = ("Overachievr_fb_\(key)")
+                        let newKey = ("\(CustomKeys.Prefix.rawValue)\(CustomKeys.FBPrefix.rawValue)\(key)")
                         self.defaults.setObject(value, forKey: newKey)
-                        
                         self.defaults.synchronize()
                     }
                     
@@ -132,8 +139,8 @@ class FacebookAuth: Authentication {
     }
 
     func getFBNSUserDefaults() -> (fbName: String, fbEmail: String) {
-        if let fbName = defaults.valueForKey("Overachievr_fb_name") as? String,
-            fbEmail = defaults.valueForKey("Overachievr_fb_email") as? String {
+        if let fbName = defaults.valueForKey("\(CustomKeys.Prefix.rawValue)\(CustomKeys.FBPrefix.rawValue)name") as? String,
+            fbEmail = defaults.valueForKey("\(CustomKeys.Prefix.rawValue)\(CustomKeys.FBPrefix.rawValue)email") as? String {
                 return (fbName,fbEmail)
         } else {
             return ("","")
