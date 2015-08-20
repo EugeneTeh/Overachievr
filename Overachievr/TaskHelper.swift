@@ -9,6 +9,8 @@
 import Foundation
 import FBSDKCoreKit
 import RealmSwift
+import Alamofire
+import SwiftyJSON
 
 
 enum TaskStatus: String {
@@ -31,7 +33,7 @@ class TaskHelper {
 
     var getCreatorEmail: String {
         if Authentication().getLoginSource() == LoginSource.Facebook.rawValue {
-            return FacebookAuth().getFBNSUserDefaults().fbEmail
+            return FacebookAuth().fbEmail
         } else {
             return ""
         }
@@ -40,7 +42,7 @@ class TaskHelper {
     
     var getCreatorName: String {
         if Authentication().getLoginSource() == LoginSource.Facebook.rawValue {
-            return FacebookAuth().getFBNSUserDefaults().fbName
+            return FacebookAuth().fbName
         } else {
             return ""
         }
@@ -51,6 +53,36 @@ class TaskHelper {
     
     func createNewTask(assigneeName: String, assigneeEmail: String) {
         
+    }
+    
+    func getAssignedTask(taskID: String) {
+        Alamofire.request(.GET, "http://52.25.48.116:9000/api/tasks/\(taskID)").responseJSON { _, _, data, error in
+            if let anError = error {
+                println("error calling GET on /posts/1")
+                println(error)
+            } else if let tasks = data as? NSDictionary {
+                let realm = Realm()
+                realm.write {
+                    realm.create(Tasks.self, value: tasks, update: true)
+                }
+                let taskObject = realm.objects(Tasks).filter("taskID = '\(taskID)'")
+                if let taskCreator = taskObject[0].valueForKey("taskCreatorName") as? String {
+                    let app = UIApplication.sharedApplication()
+                    
+                    var notification = UILocalNotification()
+                    notification.alertBody = "\(taskCreator) assigned you a task"
+                    notification.soundName = UILocalNotificationDefaultSoundName
+                    notification.applicationIconBadgeNumber = app.applicationIconBadgeNumber + 1
+                    notification.alertTitle = "Test task"
+                    notification.fireDate = NSDate()
+                    
+                    UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+                }
+                
+                
+
+            }
+        }
     }
 }
 

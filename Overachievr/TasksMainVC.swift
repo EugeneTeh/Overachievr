@@ -9,8 +9,9 @@
 import UIKit
 import RealmSwift
 import FBSDKCoreKit
+import Crashlytics
 
-class TasksMainVC: UITableViewController {
+class TasksMainVC: UITableViewController, UITableViewDelegate {
     
     let taskList = Realm().objects(Tasks).sorted("taskCreatedDateTime", ascending: false)
     let realm = Realm()
@@ -18,6 +19,17 @@ class TasksMainVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshView", name: "reloadTasksMainVC", object: nil)
+        
+        refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: Selector("refreshView"), forControlEvents: UIControlEvents.ValueChanged)
+        tableView.addSubview(refreshControl!)
+
+    }
+    
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        self.refreshView()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -39,8 +51,21 @@ class TasksMainVC: UITableViewController {
     
     
     @IBAction func unwindToTasksMain(segue:UIStoryboardSegue) {
-        self.tableView.reloadData()
+        self.refreshView()
 
+    }
+    
+    func refreshView() {
+        println("View refreshed")
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            if (self.refreshControl!.refreshing) {
+                self.refreshControl!.endRefreshing()
+            }
+            
+            self.tableView.reloadData()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        }
     }
     
     // MARK: - Navigation

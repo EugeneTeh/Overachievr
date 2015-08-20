@@ -8,7 +8,9 @@
 
 import UIKit
 import FBSDKCoreKit
-import RealmSwift
+import Fabric
+import Crashlytics
+
 
 
 @UIApplicationMain
@@ -19,7 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
+        Fabric.with([Crashlytics()])
+        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
@@ -44,32 +47,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        println(Realm.defaultPath)
+        //println(Realm.defaultPath)
         FBSDKAppEvents.activateApp()
-        
+        AddressBook().getAddressBookNames()
         
         // Check if user is logged in
         
         let fbAuthCheck = FacebookAuth()
         
         if fbAuthCheck.fbAccessTokenAvailable {
-            Authentication().registerForAPNS(application)
-            Authentication().setServerUserInfo()
+            if fbAuthCheck.fbEmail != "" {
+                fbAuthCheck.setFBUserInfo()
+            }
             fbAuthCheck.goToIntialVC()
         } else {
             fbAuthCheck.goToLoginVC()
         }
         
-    }
-    
-
-    
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        Authentication().setDeviceToken(deviceToken.description)
-    }
-    
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println(error.localizedDescription)
     }
 
 
@@ -79,6 +73,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // self.saveContext()
     }
 
+// MARK: - Push Notifications
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        if let activity = userInfo["activity"] as? String {
+            if activity == "New" {
+                if let taskID = userInfo["taskID"] as? String {
+                    TaskHelper().getAssignedTask(taskID)
+                    NSNotificationCenter.defaultCenter().postNotificationName("reloadTasksMainVC", object: nil)
+                    completionHandler (UIBackgroundFetchResult.NewData)
+                    
+                }
+            }
+        }
+        
+        
+    }
+
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        Authentication().setDeviceToken(deviceToken.description)
+        ServerAuth().setServerUserInfo()
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println(error.localizedDescription)
+    }
     
 }
 

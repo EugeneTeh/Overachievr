@@ -32,9 +32,8 @@ class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
             
             let authentication = FacebookAuth()
             if authentication.getLoginSource() == LoginSource.Facebook.rawValue {
-                
-                assigneeCell.textLabel?.text = authentication.getFBNSUserDefaults().fbName
-                assigneeCell.detailTextLabel?.text = authentication.getFBNSUserDefaults().fbEmail
+                assigneeCell.textLabel?.text = authentication.fbName
+                assigneeCell.detailTextLabel?.text = authentication.fbEmail
             }
             
         }

@@ -38,7 +38,7 @@ class LoginVC: UIViewController {
     
     func onTokenUpdated(notification: NSNotification) {
         if fbAuthCheck.fbAccessTokenAvailable {
-            fbAuthCheck.setFBNSUserDefaults()
+            fbAuthCheck.setFBUserInfo()
         }
     }
 

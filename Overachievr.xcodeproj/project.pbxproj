@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3327E0C01F2AF9D41DB52E2E /* Pods_Overachievr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A706F4D91B829C8D00ADA085 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4D81B829C8D00ADA085 /* Users.swift */; };
+		A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */; };
 		A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */; };
 		A77135E41B807DB60065A24E /* OverachievrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135E31B807DB60065A24E /* OverachievrTests.swift */; };
 		A77135EE1B807E110065A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77135ED1B807E110065A24E /* Main.storyboard */; };
@@ -16,9 +18,8 @@
 		A77135F61B807E2E0065A24E /* TasksMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135F21B807E2E0065A24E /* TasksMainVC.swift */; };
 		A77135F71B807E2E0065A24E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135F31B807E2E0065A24E /* LoginVC.swift */; };
 		A77136021B807E7E0065A24E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136001B807E7E0065A24E /* AppDelegate.swift */; };
-		A77136091B807EBF0065A24E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136071B807EBF0065A24E /* Task.swift */; };
+		A77136091B807EBF0065A24E /* Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136071B807EBF0065A24E /* Tasks.swift */; };
 		A771360A1B807EBF0065A24E /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136081B807EBF0065A24E /* Contacts.swift */; };
-		A77136121B807ED50065A24E /* RestAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A771360C1B807ED50065A24E /* RestAPIHelper.swift */; };
 		A77136131B807ED50065A24E /* AddressBookHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A771360D1B807ED50065A24E /* AddressBookHelper.swift */; };
 		A77136141B807ED50065A24E /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A771360E1B807ED50065A24E /* AuthenticationHelper.swift */; };
 		A77136151B807ED50065A24E /* TaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A771360F1B807ED50065A24E /* TaskHelper.swift */; };
@@ -59,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Overachievr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A706F4D81B829C8D00ADA085 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		A77135C51B807DB60065A24E /* Overachievr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overachievr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135CD1B807DB60065A24E /* Overachievr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Overachievr.xcdatamodel; sourceTree = "<group>"; };
 		A77135DD1B807DB60065A24E /* OverachievrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverachievrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,9 +75,8 @@
 		A77135F31B807E2E0065A24E /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		A77136001B807E7E0065A24E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A77136011B807E7E0065A24E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A77136071B807EBF0065A24E /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		A77136071B807EBF0065A24E /* Tasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tasks.swift; sourceTree = "<group>"; };
 		A77136081B807EBF0065A24E /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
-		A771360C1B807ED50065A24E /* RestAPIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIHelper.swift; sourceTree = "<group>"; };
 		A771360D1B807ED50065A24E /* AddressBookHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookHelper.swift; sourceTree = "<group>"; };
 		A771360E1B807ED50065A24E /* AuthenticationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		A771360F1B807ED50065A24E /* TaskHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskHelper.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				A77135C71B807DB60065A24E /* Overachievr */,
+				A77136061B807EA30065A24E /* Model */,
 				A77135E01B807DB60065A24E /* OverachievrTests */,
 				A77135C61B807DB60065A24E /* Products */,
 				A771361C1B807F390065A24E /* Frameworks */,
@@ -133,7 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				A771360B1B807EC50065A24E /* Helpers */,
-				A77136061B807EA30065A24E /* Model */,
 				A77136051B807E920065A24E /* Controllers */,
 				A77136041B807E880065A24E /* Views */,
 				A77135C81B807DB60065A24E /* Supporting Files */,
@@ -192,22 +194,24 @@
 		A77136061B807EA30065A24E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A77136071B807EBF0065A24E /* Task.swift */,
+				A706F4D81B829C8D00ADA085 /* Users.swift */,
+				A77136071B807EBF0065A24E /* Tasks.swift */,
 				A77136081B807EBF0065A24E /* Contacts.swift */,
 				A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */,
 			);
 			name = Model;
+			path = Overachievr;
 			sourceTree = "<group>";
 		};
 		A771360B1B807EC50065A24E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				A771360C1B807ED50065A24E /* RestAPIHelper.swift */,
 				A771360D1B807ED50065A24E /* AddressBookHelper.swift */,
 				A771360E1B807ED50065A24E /* AuthenticationHelper.swift */,
 				A771360F1B807ED50065A24E /* TaskHelper.swift */,
 				A77136101B807ED50065A24E /* DateTimeHelper.swift */,
 				A77136111B807ED50065A24E /* CustomCellHelper.swift */,
+				A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -246,6 +250,7 @@
 				A706F4D71B81319200ADA085 /* ShellScript */,
 				7889902D8122EC8FC5AC03D0 /* Embed Pods Frameworks */,
 				DF1ED9E9A6793DFEAD2959CF /* Copy Pods Resources */,
+				A706F4DE1B84D31A00ADA085 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -285,6 +290,11 @@
 				TargetAttributes = {
 					A77135C41B807DB60065A24E = {
 						CreatedOnToolsVersion = 6.4;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					A77135DC1B807DB60065A24E = {
 						CreatedOnToolsVersion = 6.4;
@@ -375,6 +385,19 @@
 			shellPath = /bin/sh;
 			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
 		};
+		A706F4DE1B84D31A00ADA085 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" 0b0c6e44a30312550ea892f34d2442fe0a5dbeaa 01a2881ad3a5053935a182a1783b42aed9113ce06883747f3a7d710c1c12ebaa";
+		};
 		DF1ED9E9A6793DFEAD2959CF /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -405,10 +428,11 @@
 				A77136141B807ED50065A24E /* AuthenticationHelper.swift in Sources */,
 				A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */,
 				A77135F41B807E2E0065A24E /* ContactsVC.swift in Sources */,
+				A706F4D91B829C8D00ADA085 /* Users.swift in Sources */,
 				A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */,
+				A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */,
 				A77135F51B807E2E0065A24E /* CreateTaskVC.swift in Sources */,
-				A77136091B807EBF0065A24E /* Task.swift in Sources */,
-				A77136121B807ED50065A24E /* RestAPIHelper.swift in Sources */,
+				A77136091B807EBF0065A24E /* Tasks.swift in Sources */,
 				A77136151B807ED50065A24E /* TaskHelper.swift in Sources */,
 				A77135F71B807E2E0065A24E /* LoginVC.swift in Sources */,
 			);
