@@ -58,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let fbAuthCheck = FacebookAuth()
         
         if fbAuthCheck.fbAccessTokenAvailable {
+            println("token exists")
             if fbAuthCheck.fbEmail != "" {
                 AddressBook().getAddressBookNames()
                 fbAuthCheck.setFBUserInfo()

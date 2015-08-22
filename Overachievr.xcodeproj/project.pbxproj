@@ -13,11 +13,15 @@
 		A706F4ED1B8632E300ADA085 /* MainContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4EC1B8632E300ADA085 /* MainContainerVC.swift */; };
 		A706F4F11B86A3BB00ADA085 /* LeftMenuPanelTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4F01B86A3BB00ADA085 /* LeftMenuPanelTVC.swift */; };
 		A706F4F31B86A4F600ADA085 /* MainCenterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4F21B86A4F600ADA085 /* MainCenterVC.swift */; };
+		A706F4F71B88EDF100ADA085 /* LeftMenuPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4F61B88EDF100ADA085 /* LeftMenuPanelDelegate.swift */; };
+		A706F4FA1B88F16E00ADA085 /* CreateTaskPanelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4F91B88F16E00ADA085 /* CreateTaskPanelVC.swift */; };
+		A706F4FC1B88F27B00ADA085 /* CreateTaskPanelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4FB1B88F27B00ADA085 /* CreateTaskPanelDelegate.swift */; };
+		A706F5001B89194700ADA085 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */; };
 		A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */; };
 		A77135E41B807DB60065A24E /* OverachievrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135E31B807DB60065A24E /* OverachievrTests.swift */; };
 		A77135EE1B807E110065A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77135ED1B807E110065A24E /* Main.storyboard */; };
 		A77135F41B807E2E0065A24E /* ContactsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135F01B807E2E0065A24E /* ContactsVC.swift */; };
-		A77135F51B807E2E0065A24E /* CreateTaskVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135F11B807E2E0065A24E /* CreateTaskVC.swift */; };
+		A77135F51B807E2E0065A24E /* CreateTaskVC-old.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135F11B807E2E0065A24E /* CreateTaskVC-old.swift */; };
 		A77135F61B807E2E0065A24E /* TasksMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135F21B807E2E0065A24E /* TasksMainVC.swift */; };
 		A77135F71B807E2E0065A24E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135F31B807E2E0065A24E /* LoginVC.swift */; };
 		A77136021B807E7E0065A24E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136001B807E7E0065A24E /* AppDelegate.swift */; };
@@ -68,6 +72,10 @@
 		A706F4EC1B8632E300ADA085 /* MainContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerVC.swift; sourceTree = "<group>"; };
 		A706F4F01B86A3BB00ADA085 /* LeftMenuPanelTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPanelTVC.swift; sourceTree = "<group>"; };
 		A706F4F21B86A4F600ADA085 /* MainCenterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCenterVC.swift; sourceTree = "<group>"; };
+		A706F4F61B88EDF100ADA085 /* LeftMenuPanelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPanelDelegate.swift; sourceTree = "<group>"; };
+		A706F4F91B88F16E00ADA085 /* CreateTaskPanelVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTaskPanelVC.swift; sourceTree = "<group>"; };
+		A706F4FB1B88F27B00ADA085 /* CreateTaskPanelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTaskPanelDelegate.swift; sourceTree = "<group>"; };
+		A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
 		A77135C51B807DB60065A24E /* Overachievr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overachievr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135CD1B807DB60065A24E /* Overachievr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Overachievr.xcdatamodel; sourceTree = "<group>"; };
 		A77135DD1B807DB60065A24E /* OverachievrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverachievrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,7 +84,7 @@
 		A77135ED1B807E110065A24E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		A77135EF1B807E2D0065A24E /* Overachievr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Overachievr-Bridging-Header.h"; sourceTree = "<group>"; };
 		A77135F01B807E2E0065A24E /* ContactsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsVC.swift; sourceTree = "<group>"; };
-		A77135F11B807E2E0065A24E /* CreateTaskVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTaskVC.swift; sourceTree = "<group>"; };
+		A77135F11B807E2E0065A24E /* CreateTaskVC-old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CreateTaskVC-old.swift"; sourceTree = "<group>"; };
 		A77135F21B807E2E0065A24E /* TasksMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksMainVC.swift; sourceTree = "<group>"; };
 		A77135F31B807E2E0065A24E /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		A77136001B807E7E0065A24E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +125,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A706F4F81B88EE5600ADA085 /* Main Screen */ = {
+			isa = PBXGroup;
+			children = (
+				A706F4FE1B88F29D00ADA085 /* Create Task Panel */,
+				A706F4FD1B88F28800ADA085 /* Left Menu Panel */,
+				A706F4EC1B8632E300ADA085 /* MainContainerVC.swift */,
+				A706F4F21B86A4F600ADA085 /* MainCenterVC.swift */,
+				A77135F21B807E2E0065A24E /* TasksMainVC.swift */,
+			);
+			name = "Main Screen";
+			sourceTree = "<group>";
+		};
+		A706F4FD1B88F28800ADA085 /* Left Menu Panel */ = {
+			isa = PBXGroup;
+			children = (
+				A706F4F01B86A3BB00ADA085 /* LeftMenuPanelTVC.swift */,
+				A706F4F61B88EDF100ADA085 /* LeftMenuPanelDelegate.swift */,
+			);
+			name = "Left Menu Panel";
+			sourceTree = "<group>";
+		};
+		A706F4FE1B88F29D00ADA085 /* Create Task Panel */ = {
+			isa = PBXGroup;
+			children = (
+				A706F4F91B88F16E00ADA085 /* CreateTaskPanelVC.swift */,
+				A706F4FB1B88F27B00ADA085 /* CreateTaskPanelDelegate.swift */,
+			);
+			name = "Create Task Panel";
+			sourceTree = "<group>";
+		};
 		A77135BC1B807DB60065A24E = {
 			isa = PBXGroup;
 			children = (
@@ -189,13 +227,10 @@
 		A77136051B807E920065A24E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A706F4F81B88EE5600ADA085 /* Main Screen */,
 				A77135F01B807E2E0065A24E /* ContactsVC.swift */,
-				A77135F11B807E2E0065A24E /* CreateTaskVC.swift */,
-				A77135F21B807E2E0065A24E /* TasksMainVC.swift */,
+				A77135F11B807E2E0065A24E /* CreateTaskVC-old.swift */,
 				A77135F31B807E2E0065A24E /* LoginVC.swift */,
-				A706F4EC1B8632E300ADA085 /* MainContainerVC.swift */,
-				A706F4F21B86A4F600ADA085 /* MainCenterVC.swift */,
-				A706F4F01B86A3BB00ADA085 /* LeftMenuPanelTVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -221,6 +256,7 @@
 				A77136101B807ED50065A24E /* DateTimeHelper.swift */,
 				A77136111B807ED50065A24E /* CustomCellHelper.swift */,
 				A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */,
+				A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -438,13 +474,17 @@
 				A706F4ED1B8632E300ADA085 /* MainContainerVC.swift in Sources */,
 				A77136141B807ED50065A24E /* AuthenticationHelper.swift in Sources */,
 				A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */,
+				A706F4FC1B88F27B00ADA085 /* CreateTaskPanelDelegate.swift in Sources */,
 				A77135F41B807E2E0065A24E /* ContactsVC.swift in Sources */,
 				A706F4D91B829C8D00ADA085 /* Users.swift in Sources */,
 				A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */,
 				A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */,
-				A77135F51B807E2E0065A24E /* CreateTaskVC.swift in Sources */,
+				A706F4FA1B88F16E00ADA085 /* CreateTaskPanelVC.swift in Sources */,
+				A77135F51B807E2E0065A24E /* CreateTaskVC-old.swift in Sources */,
+				A706F5001B89194700ADA085 /* KeyboardHelper.swift in Sources */,
 				A77136091B807EBF0065A24E /* Tasks.swift in Sources */,
 				A706F4F31B86A4F600ADA085 /* MainCenterVC.swift in Sources */,
+				A706F4F71B88EDF100ADA085 /* LeftMenuPanelDelegate.swift in Sources */,
 				A77136151B807ED50065A24E /* TaskHelper.swift in Sources */,
 				A77135F71B807E2E0065A24E /* LoginVC.swift in Sources */,
 			);

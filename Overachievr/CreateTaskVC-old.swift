@@ -11,7 +11,7 @@ import RealmSwift
 import Alamofire
 
 
-class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
+class CreateTaskVCOld: UITableViewController, AssigneeSelectionDelegate  {
     
     
     @IBOutlet weak var assigneeCell: UITableViewCell!

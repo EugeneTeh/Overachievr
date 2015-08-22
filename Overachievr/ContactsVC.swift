@@ -108,7 +108,7 @@ class ContactsVC: UITableViewController {
         if segue.identifier == "unwindToCreateTask" {
             let contact = contactList[self.tableView.indexPathForSelectedRow()!.row]
             
-            let destinationVC = segue.destinationViewController as! CreateTaskVC
+            let destinationVC = segue.destinationViewController as! CreateTaskVCOld
             
             destinationVC.didSelectAssignee(contact.contactName, assigneeEmail: contact.contactEmail)
             

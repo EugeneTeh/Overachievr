@@ -34,11 +34,13 @@ class Authentication {
 
     }
     
-    func resetLogin () {
+    func resetLogin() {
         if self.getLoginSource() == LoginSource.Facebook.rawValue {
+            println("Token reset")
             FBSDKAccessToken.setCurrentAccessToken(nil)
             FBSDKLoginManager().logOut()
         }
+        goToLoginVC()
     }
     
     func goToLoginVC () {

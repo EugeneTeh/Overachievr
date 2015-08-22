@@ -36,7 +36,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="SCb-fj-ETQ" kind="show" identifier="createTaskSeque" id="SNA-QG-eed"/>
+                                    <action selector="createTaskButtonTapped:" destination="0RH-LK-gtA" eventType="touchUpInside" id="cel-hx-0zj"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WFd-Lt-VVR">

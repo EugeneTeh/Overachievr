@@ -11,7 +11,7 @@ import RealmSwift
 import FBSDKCoreKit
 import Crashlytics
 
-class TasksMainVC: UITableViewController, UITableViewDelegate, UIPopoverPresentationControllerDelegate {
+class TasksMainVC: UITableViewController, UITableViewDelegate {
     
     let taskList = Realm().objects(Tasks).sorted("taskCreatedDateTime", ascending: false)
     let realm = Realm()
