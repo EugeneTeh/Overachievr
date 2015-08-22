@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
         Fabric.with([Crashlytics()])
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -49,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //println(Realm.defaultPath)
         FBSDKAppEvents.activateApp()
-        AddressBook().getAddressBookNames()
+        
         
         // Check if user is logged in
         
@@ -57,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if fbAuthCheck.fbAccessTokenAvailable {
             if fbAuthCheck.fbEmail != "" {
+                AddressBook().getAddressBookNames()
                 fbAuthCheck.setFBUserInfo()
             }
             fbAuthCheck.goToIntialVC()

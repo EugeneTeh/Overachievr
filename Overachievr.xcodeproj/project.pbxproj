@@ -10,6 +10,9 @@
 		3327E0C01F2AF9D41DB52E2E /* Pods_Overachievr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A706F4D91B829C8D00ADA085 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4D81B829C8D00ADA085 /* Users.swift */; };
 		A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */; };
+		A706F4ED1B8632E300ADA085 /* MainContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4EC1B8632E300ADA085 /* MainContainerVC.swift */; };
+		A706F4F11B86A3BB00ADA085 /* LeftMenuPanelTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4F01B86A3BB00ADA085 /* LeftMenuPanelTVC.swift */; };
+		A706F4F31B86A4F600ADA085 /* MainCenterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4F21B86A4F600ADA085 /* MainCenterVC.swift */; };
 		A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */; };
 		A77135E41B807DB60065A24E /* OverachievrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135E31B807DB60065A24E /* OverachievrTests.swift */; };
 		A77135EE1B807E110065A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77135ED1B807E110065A24E /* Main.storyboard */; };
@@ -62,6 +65,9 @@
 		2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Overachievr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A706F4D81B829C8D00ADA085 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
+		A706F4EC1B8632E300ADA085 /* MainContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerVC.swift; sourceTree = "<group>"; };
+		A706F4F01B86A3BB00ADA085 /* LeftMenuPanelTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPanelTVC.swift; sourceTree = "<group>"; };
+		A706F4F21B86A4F600ADA085 /* MainCenterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCenterVC.swift; sourceTree = "<group>"; };
 		A77135C51B807DB60065A24E /* Overachievr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overachievr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135CD1B807DB60065A24E /* Overachievr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Overachievr.xcdatamodel; sourceTree = "<group>"; };
 		A77135DD1B807DB60065A24E /* OverachievrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverachievrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,6 +193,9 @@
 				A77135F11B807E2E0065A24E /* CreateTaskVC.swift */,
 				A77135F21B807E2E0065A24E /* TasksMainVC.swift */,
 				A77135F31B807E2E0065A24E /* LoginVC.swift */,
+				A706F4EC1B8632E300ADA085 /* MainContainerVC.swift */,
+				A706F4F21B86A4F600ADA085 /* MainCenterVC.swift */,
+				A706F4F01B86A3BB00ADA085 /* LeftMenuPanelTVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -425,6 +434,8 @@
 				A77135F61B807E2E0065A24E /* TasksMainVC.swift in Sources */,
 				A77136131B807ED50065A24E /* AddressBookHelper.swift in Sources */,
 				A77136161B807ED50065A24E /* DateTimeHelper.swift in Sources */,
+				A706F4F11B86A3BB00ADA085 /* LeftMenuPanelTVC.swift in Sources */,
+				A706F4ED1B8632E300ADA085 /* MainContainerVC.swift in Sources */,
 				A77136141B807ED50065A24E /* AuthenticationHelper.swift in Sources */,
 				A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */,
 				A77135F41B807E2E0065A24E /* ContactsVC.swift in Sources */,
@@ -433,6 +444,7 @@
 				A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */,
 				A77135F51B807E2E0065A24E /* CreateTaskVC.swift in Sources */,
 				A77136091B807EBF0065A24E /* Tasks.swift in Sources */,
+				A706F4F31B86A4F600ADA085 /* MainCenterVC.swift in Sources */,
 				A77136151B807ED50065A24E /* TaskHelper.swift in Sources */,
 				A77135F71B807E2E0065A24E /* LoginVC.swift in Sources */,
 			);

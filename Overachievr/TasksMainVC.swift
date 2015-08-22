@@ -11,7 +11,7 @@ import RealmSwift
 import FBSDKCoreKit
 import Crashlytics
 
-class TasksMainVC: UITableViewController, UITableViewDelegate {
+class TasksMainVC: UITableViewController, UITableViewDelegate, UIPopoverPresentationControllerDelegate {
     
     let taskList = Realm().objects(Tasks).sorted("taskCreatedDateTime", ascending: false)
     let realm = Realm()
@@ -24,6 +24,13 @@ class TasksMainVC: UITableViewController, UITableViewDelegate {
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: Selector("refreshView"), forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl!)
+        
+        //self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        let app = UIApplication.sharedApplication()
+        app.applicationIconBadgeNumber = 0
+        
+
 
     }
     
@@ -49,12 +56,6 @@ class TasksMainVC: UITableViewController, UITableViewDelegate {
         authCheck.goToLoginVC()
     }
     
-    
-    @IBAction func unwindToTasksMain(segue:UIStoryboardSegue) {
-        self.refreshView()
-
-    }
-    
     func refreshView() {
         println("View refreshed")
         dispatch_async(dispatch_get_main_queue()) {
@@ -68,13 +69,18 @@ class TasksMainVC: UITableViewController, UITableViewDelegate {
         }
     }
     
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
+    }
+    
     // MARK: - Navigation
+    @IBAction func unwindToTasksMain(segue:UIStoryboardSegue) {
+        self.refreshView()
+        
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        if segue.identifier == "createDetailedTask" {
-            
-        }
+
     }
     
     // MARK: - Table view data source

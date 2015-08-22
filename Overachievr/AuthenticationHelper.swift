@@ -180,7 +180,7 @@ class FacebookAuth: Authentication {
     }
     
     func setFBUserInfo() {
-        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture"]).startWithCompletionHandler({ (connection, result, error) -> Void in
             
             if let fbError = error {
                 //handle error
@@ -208,7 +208,8 @@ class FacebookAuth: Authentication {
                             self.userObject.userFBLastName = value as! String
                         } else if key as! String == "email" {
                             self.userObject.userFBEmail = value as! String
-                        }
+                        } else if key as! String == "picture" {
+                            println(key)                        }
                     }
                 }
                 self.isUserInfoPopulated = true
@@ -216,5 +217,4 @@ class FacebookAuth: Authentication {
         })
     }
 
-    
 }

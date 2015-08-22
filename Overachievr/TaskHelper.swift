@@ -71,8 +71,8 @@ class TaskHelper {
                     
                     var notification = UILocalNotification()
                     notification.alertBody = "\(taskCreator) assigned you a task"
-                    notification.soundName = UILocalNotificationDefaultSoundName
-                    notification.applicationIconBadgeNumber = app.applicationIconBadgeNumber + 1
+                    notification.applicationIconBadgeNumber++
+                    notification.soundName = UILocalNotificationDefaultSoundName 
                     notification.alertTitle = "Test task"
                     notification.fireDate = NSDate()
                     
