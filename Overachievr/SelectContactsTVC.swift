@@ -1,5 +1,5 @@
 //
-//  ContactsVC.swift
+//  SelectContactsTVC.swift
 //  Overachievr
 //
 //  Created by Eugene Teh on 8/9/15.
@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import RealmSwift
+import RealmSwift 
 
 
-class ContactsVC: UITableViewController {
+class SelectContactsTVC: UITableViewController {
     
     let contactList = Realm().objects(Contacts).sorted("contactName", ascending: true)
     let realm = Realm()
@@ -23,18 +23,19 @@ class ContactsVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-
-    }
-    
-    override func viewDidAppear(animated: Bool) {
+        
         //remove trailing unused cells
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+
 
     // MARK: - Table view data source
 
@@ -101,14 +102,14 @@ class ContactsVC: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        self.performSegueWithIdentifier("unwindToCreateTask", sender: self)
+        //self.performSegueWithIdentifier("unwindToCreateTask", sender: self)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "unwindToCreateTask" {
             let contact = contactList[self.tableView.indexPathForSelectedRow()!.row]
             
-            let destinationVC = segue.destinationViewController as! CreateTaskVCOld
+            let destinationVC = segue.destinationViewController as! CreateTaskVC
             
             destinationVC.didSelectAssignee(contact.contactName, assigneeEmail: contact.contactEmail)
             

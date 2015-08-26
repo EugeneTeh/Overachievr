@@ -11,19 +11,13 @@ import RealmSwift
 import Alamofire
 
 
-class CreateTaskVCOld: UITableViewController, AssigneeSelectionDelegate  {
+class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
     
     
     @IBOutlet weak var assigneeCell: UITableViewCell!
 
     
-    var assigneeSelected: Bool = false {
-        didSet {
-            if assigneeSelected {
-                //updateAssigneeInfo()
-            }
-        }
-    }
+    var assigneeSelected: Bool = false 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,8 +88,10 @@ class CreateTaskVCOld: UITableViewController, AssigneeSelectionDelegate  {
     
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        if segue.identifier == "unwindToTasksMain" {
+println(segue.identifier)
+        if segue.identifier == "unwindToTaskGroupsSegue" {
+            
+            
             let taskObject = Tasks()
             let taskHelper = TaskHelper()
             let assigneeObject = TaskAssignee()

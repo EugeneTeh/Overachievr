@@ -8,29 +8,43 @@
 
 import UIKit
 
+protocol CreateTaskPanelDelegate {
+    func createTaskButtonTapped(sourceView: UIView, createTaskPanelExpanded: Bool)
+    func keyboardShown(frame: CGRect)
+}
+
+protocol LeftMenuPanelDelegate {
+    func leftMenuPanelButtonTapped(sourceView:UIView, leftMenuPanelExpanded: Bool)
+}
+
+@IBDesignable
 class MainContainerVC: UIViewController {
     
-    let mainContainerLeftPanelOffset: CGFloat = 120
-    let panelTableViewTopInset: CGFloat = 68.0
-    var keyboardFrame: CGRect = CGRectZero
-    
-    // Panel elements
-    let leftMenuPanelCV: UIView = UIView()
-    var leftMenuPanelTVC: LeftMenuPanelTVC?
-    let createTaskPanelCV: UIView = UIView()
-    var createTaskTextField: UITextField?
-    
-    // Panel toggle
-    var leftMenuPanelExpanded: Bool = false
+    var createTaskPanelDelegate: CreateTaskPanelDelegate?
     var createTaskPanelExpanded: Bool = false
+    
+    var leftMenuPanelDelegate: LeftMenuPanelDelegate?
+    var leftMenuPanelExpanded: Bool = false
+    
+    let selectContactsPanelOffset: CGFloat = 120
+    let selectContactsPanelTopInset: CGFloat = 68.0
+    let selectContactsPanelCV: UIView = UIView()
 
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //createTaskPanelDelegate = CreateTaskPanelVC()
+        //leftMenuPanelDelegate = LeftMenuPanelTVC()
+        
+        
         addLeftMenuPanelGestureRecognizers()
         addCreateTaskPanelGestureRecognizers()
-        registerForKeyboardNotifications()
+        
+        let keyboardHelper = KeyboardHelper()
+        keyboardHelper.registerForKeyboardNotifications(self)
 
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,14 +54,23 @@ class MainContainerVC: UIViewController {
 
     
     @IBAction func leftMenuPanelTapped(sender: AnyObject) {
-        toggleLeftMenuPanel(!leftMenuPanelExpanded)
-
+        leftMenuPanelDelegate?.leftMenuPanelButtonTapped(self.view, leftMenuPanelExpanded: leftMenuPanelExpanded)
+        leftMenuPanelExpanded = !leftMenuPanelExpanded
     }
     
     @IBAction func createTaskButtonTapped(sender: AnyObject) {
-        toggleCreateTaskPanel(!createTaskPanelExpanded)
+        createTaskPanelDelegate?.createTaskButtonTapped(self.view, createTaskPanelExpanded: createTaskPanelExpanded)
+        createTaskPanelExpanded = !createTaskPanelExpanded
+        
     }
     
+    func keyboardWillShow(notification: NSNotification) {
+        let keyboard = KeyboardNotification(notification)
+        let keyboardFrame = keyboard.frameEndForView(self.view)
+        createTaskPanelDelegate?.keyboardShown(keyboardFrame)
+    }
+    
+
 
     // MARK: - Navigation
 

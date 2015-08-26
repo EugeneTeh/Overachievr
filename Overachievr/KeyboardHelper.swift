@@ -12,6 +12,26 @@ import UIKit
 /// - UIKeyboardAnimationDurationUserInfoKey
 /// - UIKeyboardAnimationCurveUserInfoKey
 
+
+class KeyboardHelper {
+    
+    func registerForKeyboardNotifications(observer: AnyObject) {
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(observer,
+            selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification,
+            object: nil)
+        
+        /*
+        notificationCenter.addObserver(self,
+        selector: "keyboardWillBeHidden:",
+        name: UIKeyboardWillHideNotification,
+        object: nil)
+        */
+    }
+}
+
+
 public struct KeyboardNotification {
     
     let notification: NSNotification

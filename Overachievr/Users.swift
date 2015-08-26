@@ -18,7 +18,6 @@ class Users: Object {
     dynamic var userFBName: String = ""
     dynamic var userFBToken: String = ""
     dynamic var userFBID: String = ""
-    dynamic var userFBPic = NSData()
     dynamic var userGMail: String = ""
     dynamic var userGMailToken: String = ""
     dynamic var userIsRegistered: Bool = false
