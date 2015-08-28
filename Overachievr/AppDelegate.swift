@@ -61,7 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 AddressBook().getAddressBookNames()
                 fbAuthCheck.setFBUserInfo()
             }
-            fbAuthCheck.goToIntialVC()
         } else {
             fbAuthCheck.goToLoginVC()
         }

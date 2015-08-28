@@ -18,6 +18,7 @@
 		A706F5001B89194700ADA085 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */; };
 		A706F5021B8AD51600ADA085 /* MainContainerGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F5011B8AD51600ADA085 /* MainContainerGestures.swift */; };
 		A706F5381B8D466A00ADA085 /* TaskGroupsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F5371B8D466A00ADA085 /* TaskGroupsTVC.swift */; };
+		A706F53C1B8E82EC00ADA085 /* CollaboratorTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */; };
 		A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */; };
 		A77135E41B807DB60065A24E /* OverachievrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135E31B807DB60065A24E /* OverachievrTests.swift */; };
 		A77135EE1B807E110065A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77135ED1B807E110065A24E /* Main.storyboard */; };
@@ -35,10 +36,6 @@
 		A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136111B807ED50065A24E /* CustomCellHelper.swift */; };
 		A771361A1B807EEB0065A24E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77136181B807EEB0065A24E /* Images.xcassets */; };
 		A771361B1B807EEB0065A24E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A77136191B807EEB0065A24E /* LaunchScreen.xib */; };
-		A7E0E2001B808293006FCBAB /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E1FE1B808293006FCBAB /* Realm.framework */; };
-		A7E0E2011B808293006FCBAB /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E1FE1B808293006FCBAB /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A7E0E2021B808293006FCBAB /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E1FF1B808293006FCBAB /* RealmSwift.framework */; };
-		A7E0E2031B808293006FCBAB /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0E1FF1B808293006FCBAB /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,14 +49,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A7E0E1FB1B8081EA006FCBAB /* Embed Frameworks */ = {
+		A706F5541B8EF5AD00ADA085 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A7E0E2031B808293006FCBAB /* RealmSwift.framework in Embed Frameworks */,
-				A7E0E2011B808293006FCBAB /* Realm.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,6 +73,7 @@
 		A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
 		A706F5011B8AD51600ADA085 /* MainContainerGestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerGestures.swift; sourceTree = "<group>"; };
 		A706F5371B8D466A00ADA085 /* TaskGroupsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskGroupsTVC.swift; sourceTree = "<group>"; };
+		A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollaboratorTVC.swift; sourceTree = "<group>"; };
 		A77135C51B807DB60065A24E /* Overachievr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overachievr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135CD1B807DB60065A24E /* Overachievr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Overachievr.xcdatamodel; sourceTree = "<group>"; };
 		A77135DD1B807DB60065A24E /* OverachievrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverachievrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,8 +96,6 @@
 		A77136111B807ED50065A24E /* CustomCellHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCellHelper.swift; sourceTree = "<group>"; };
 		A77136181B807EEB0065A24E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A77136191B807EEB0065A24E /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		A7E0E1FE1B808293006FCBAB /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
-		A7E0E1FF1B808293006FCBAB /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		B724DF12F53EE3459E67EF35 /* Pods-Overachievr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Overachievr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr.debug.xcconfig"; sourceTree = "<group>"; };
 		BA1A9CFD5040823D0B17657E /* Pods-Overachievr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Overachievr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -111,8 +105,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7E0E2021B808293006FCBAB /* RealmSwift.framework in Frameworks */,
-				A7E0E2001B808293006FCBAB /* Realm.framework in Frameworks */,
 				3327E0C01F2AF9D41DB52E2E /* Pods_Overachievr.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,6 +177,7 @@
 				A706F5371B8D466A00ADA085 /* TaskGroupsTVC.swift */,
 				A77135F11B807E2E0065A24E /* CreateTaskVC.swift */,
 				A77135F01B807E2E0065A24E /* SelectContactsTVC.swift */,
+				A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */,
 			);
 			name = "Task Groups Tab";
 			sourceTree = "<group>";
@@ -299,8 +292,6 @@
 		A771361C1B807F390065A24E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A7E0E1FE1B808293006FCBAB /* Realm.framework */,
-				A7E0E1FF1B808293006FCBAB /* RealmSwift.framework */,
 				2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */,
 			);
 			name = Frameworks;
@@ -326,11 +317,10 @@
 				A77135C11B807DB60065A24E /* Sources */,
 				A77135C21B807DB60065A24E /* Frameworks */,
 				A77135C31B807DB60065A24E /* Resources */,
-				A7E0E1FB1B8081EA006FCBAB /* Embed Frameworks */,
-				A706F4D71B81319200ADA085 /* ShellScript */,
 				7889902D8122EC8FC5AC03D0 /* Embed Pods Frameworks */,
 				DF1ED9E9A6793DFEAD2959CF /* Copy Pods Resources */,
 				A706F4DE1B84D31A00ADA085 /* ShellScript */,
+				A706F5541B8EF5AD00ADA085 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -365,6 +355,7 @@
 		A77135BD1B807DB60065A24E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = Overachievr;
 				TargetAttributes = {
@@ -452,19 +443,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A706F4D71B81319200ADA085 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
-		};
 		A706F4DE1B84D31A00ADA085 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -517,6 +495,7 @@
 				A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */,
 				A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */,
 				A77135F51B807E2E0065A24E /* CreateTaskVC.swift in Sources */,
+				A706F53C1B8E82EC00ADA085 /* CollaboratorTVC.swift in Sources */,
 				A706F5001B89194700ADA085 /* KeyboardHelper.swift in Sources */,
 				A77136091B807EBF0065A24E /* Tasks.swift in Sources */,
 				A706F4F31B86A4F600ADA085 /* MainCenterVC.swift in Sources */,
@@ -635,6 +614,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Overachievr/realm-swift-0.95.0/ios/swift-1.2",
 				);
 				INFOPLIST_FILE = Overachievr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -653,6 +633,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Overachievr/realm-swift-0.95.0/ios/swift-1.2",
 				);
 				INFOPLIST_FILE = Overachievr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

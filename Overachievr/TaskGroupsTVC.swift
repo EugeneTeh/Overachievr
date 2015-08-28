@@ -8,16 +8,29 @@
 
 import UIKit
 import RealmSwift
-import FBSDKCoreKit
+
+
+protocol TaskGroupsDelegate {
+    func didSelectGroupAtIndexPath(groupID: String)
+}
 
 class TaskGroupsTVC: UITableViewController {
     
-    let taskAssignees = Realm().objects(TaskAssignee)
+    var uniqueAssignees = Set(Realm().objects(TaskAssignee).valueForKey("assigneeEmail") as! [String])
+    var assigneeList = []
     let realm = Realm()
+    var delegate: TaskGroupsDelegate?
+    var fillerPanel: UIView? = nil
     
-    var fillerPanelShouldShow: Bool = false {
+    var showFillerPanel: Bool = false {
         didSet {
-            toggleFillerPanel(fillerPanelShouldShow)
+            if fillerPanel == nil {
+                toggleFillerPanel(showFillerPanel)
+            } else {
+                if showFillerPanel == false {
+                    toggleFillerPanel(showFillerPanel)
+                }
+            }
         }
     }
 
@@ -26,22 +39,29 @@ class TaskGroupsTVC: UITableViewController {
         
         println(Realm.defaultPath)
         
-        //remove trailing unused cells
-        self.tableView.tableFooterView = UIView(frame: CGRectZero)
-        
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: Selector("refreshView"), forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl!)
         
-        if taskAssignees.count == 0 {
-            fillerPanelShouldShow = true
-        }
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        uniqueAssignees = Set(Realm().objects(TaskAssignee).valueForKey("assigneeEmail") as! [String])
+
+        //remove trailing unused cells
+        self.tableView.tableFooterView = UIView(frame: CGRectZero)
+
+        if uniqueAssignees.count == 0 {
+            showFillerPanel = true
+        } else {
+            showFillerPanel = false
+        }
+        refreshView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,13 +85,19 @@ class TaskGroupsTVC: UITableViewController {
     func toggleFillerPanel(shouldShow: Bool) {
         if shouldShow {
             setupFillerPanel()
-            shouldShow
         } else {
-            self.view.subviews.map({ $0.removeFromSuperview() })
+            //fillerPanel!.subviews.map({ $0.removeFromSuperview() })
+            if let fillerPanelExists = fillerPanel {
+                fillerPanelExists.removeFromSuperview()
+            }
+            fillerPanel = nil
         }
     }
     
     func setupFillerPanel() {
+        fillerPanel = UIView()
+        fillerPanel?.frame = self.view.bounds
+        
         let createTaskButton = UIButton()
         createTaskButton.setImage(UIImage(named: "button_CreateTask.pdf"), forState: .Normal)
         createTaskButton.frame = CGRect(x:0, y:0, width: 160, height: 40)
@@ -90,8 +116,9 @@ class TaskGroupsTVC: UITableViewController {
         letsGetStartedLabel.text = "You have no tasks out there right now. Tap the button below, or - SWIPE UP - to quickly create some!"
         
         
-        self.view.addSubview(createTaskButton)
-        self.view.addSubview(letsGetStartedLabel)
+        fillerPanel!.addSubview(createTaskButton)
+        fillerPanel!.addSubview(letsGetStartedLabel)
+        self.view.addSubview(fillerPanel!)
     }
     
     func createTaskButtonTapped(sender: AnyObject) {
@@ -103,8 +130,7 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     @IBAction func unwindToTaskGroups(segue:UIStoryboardSegue) {
-        self.refreshView()
-        
+
     }
     
 
@@ -122,19 +148,27 @@ class TaskGroupsTVC: UITableViewController {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         
-        return taskAssignees.count
+        return uniqueAssignees.count
     }
 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TaskGroupsCell", forIndexPath: indexPath) as! UITableViewCell
-        let taskAssignee = taskAssignees[indexPath.row]
         
+        assigneeList = Array(uniqueAssignees)
+        let groups = Realm().objects(TaskAssignee).filter("assigneeEmail = '\(assigneeList[indexPath.row])'")
+
         // Configure the cell...
-        cell.textLabel!.text = taskAssignee.assigneeName
-        cell.detailTextLabel!.text = taskAssignee.assigneeEmail
+        cell.textLabel!.text = groups[0].assigneeName
+        cell.detailTextLabel!.text = groups[0].assigneeEmail
 
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        //tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        performSegueWithIdentifier("selectedTaskGroupSegue", sender: nil)
     }
 
 
@@ -173,14 +207,19 @@ class TaskGroupsTVC: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "selectedTaskGroupSegue" {
+            let group = assigneeList[self.tableView.indexPathForSelectedRow()!.row] as! String
+            let destinationVC = segue.destinationViewController as! CollaboratorTVC
+
+            destinationVC.didSelectGroup(group)
+        }
+
     }
-    */
+
 
 }
+

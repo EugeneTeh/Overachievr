@@ -102,7 +102,7 @@ class SelectContactsTVC: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        //self.performSegueWithIdentifier("unwindToCreateTask", sender: self)
+        self.performSegueWithIdentifier("unwindToCreateTask", sender: self)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -211,7 +211,8 @@ class FacebookAuth: Authentication {
                         } else if key as! String == "email" {
                             self.userObject.userFBEmail = value as! String
                         } else if key as! String == "picture" {
-                            println(key)                        }
+                            //let url =
+                        }
                     }
                 }
                 self.isUserInfoPopulated = true

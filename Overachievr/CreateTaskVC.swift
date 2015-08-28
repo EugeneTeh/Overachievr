@@ -88,7 +88,6 @@ class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
     
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-println(segue.identifier)
         if segue.identifier == "unwindToTaskGroupsSegue" {
             
             
