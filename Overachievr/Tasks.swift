@@ -14,7 +14,6 @@ class Tasks: Object {
     dynamic var taskID: String = ""
     dynamic var taskCreatorName = ""
     dynamic var taskCreatorEmail: String = ""
-    dynamic var taskName: String = ""
     dynamic var taskDescription: String = ""
     dynamic var taskStatus: String = ""
     dynamic var taskTip: Double = 0.0

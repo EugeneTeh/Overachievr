@@ -7,39 +7,53 @@
 //
 
 import UIKit
-import FBSDKCoreKit
-import FBSDKLoginKit
+//import FBSDKCoreKit
+//import FBSDKLoginKit
+import Parse
+import ParseUI
 
-class LoginVC: UIViewController {
-    
-    let fbAuthCheck = FacebookAuth()
-
-    @IBOutlet weak var fbLoginButton: UIButton!
+class LoginVC: PFLogInViewController, PFLogInViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fbLoginButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
         
-        //Wait for Facebook Token change
-        FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onTokenUpdated:", name:FBSDKAccessTokenDidChangeNotification, object: nil)
+        self.delegate = self
+        
+        self.logInView?.backgroundColor = UIColor(patternImage: UIImage(named: "LogoBackground.pdf")!)
+        self.logInView?.logo = UIImageView(image: UIImage(named: "LogoMedal.pdf"))
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
     
-    @IBAction func fbButtonPressed (sender: AnyObject) {
-        fbAuthCheck.loginToFacebook()
+    override func viewDidLayoutSubviews() {
+        self.logInView?.logo?.frame = CGRectMake(0,self.logInView!.facebookButton!.center.y - 500, 120, 190)
+        self.logInView?.logo?.center.x = self.view.center.x
         
+        //self.logInView?.usernameField?.frame = CGRectMake(0, self.logInView!.facebookButton!.center.y - 280, self.logInView!.facebookButton!.frame.width, 50)
+        //self.logInView?.usernameField?.center.x = self.view.center.x
     }
     
-    func onTokenUpdated(notification: NSNotification) {
-        if fbAuthCheck.fbAccessTokenAvailable {
-            fbAuthCheck.setFBUserInfo()
+    
+    // MARK: - Parse Login
+    
+    func logInViewController(logInController: PFLogInViewController, shouldBeginLogInWithUsername username: String, password: String) -> Bool {
+        var alert = UIAlertController()
+        
+        if !username.isEmpty {
+            return true
+        } else if !password.isEmpty {
+            return true
+        } else {
+            return false
         }
+    }
+    
+    func logInViewController(logInController: PFLogInViewController, didLogInUser user: PFUser) {
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
 }

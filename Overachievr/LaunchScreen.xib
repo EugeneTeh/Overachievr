@@ -17,18 +17,18 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="ncu-XY-9mf">
-                    <rect key="frame" x="103" y="130" width="275" height="219"/>
+                    <rect key="frame" x="109" y="13" width="262" height="371"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="0.34509803921568627" green="0.65490196078431373" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="ncu-XY-9mf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="130" id="D9E-fJ-JFM"/>
+                <constraint firstItem="ncu-XY-9mf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="13" id="D9E-fJ-JFM"/>
                 <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
-                <constraint firstAttribute="trailing" secondItem="ncu-XY-9mf" secondAttribute="trailing" constant="102" id="Q0a-eq-FeD"/>
-                <constraint firstAttribute="bottom" secondItem="ncu-XY-9mf" secondAttribute="bottom" constant="131" id="QfV-fg-s8a"/>
+                <constraint firstAttribute="trailing" secondItem="ncu-XY-9mf" secondAttribute="trailing" constant="109" id="Q0a-eq-FeD"/>
+                <constraint firstAttribute="bottom" secondItem="ncu-XY-9mf" secondAttribute="bottom" constant="96" id="QfV-fg-s8a"/>
                 <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
-                <constraint firstItem="ncu-XY-9mf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="103" id="eWp-5l-GpS"/>
+                <constraint firstItem="ncu-XY-9mf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="109" id="eWp-5l-GpS"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

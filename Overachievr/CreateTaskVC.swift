@@ -7,41 +7,92 @@
 //
 
 import UIKit
+import Parse
 import RealmSwift
 import Alamofire
 
 
-class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
+class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelectionDelegate  {
     
     
     @IBOutlet weak var assigneeCell: UITableViewCell!
-
+    @IBOutlet weak var taskDetailsTextView: UITextView!
     
+    let placeholderText = "What would you like done?"
+    var taskDetailsString: String {
+        get {
+            return taskDetailsTextView.text
+        }
+        set {
+            taskDetailsTextView.text = newValue
+            
+            textViewDidChange(taskDetailsTextView)
+        }
+    }
     var assigneeSelected: Bool = false 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        taskDetailsTextView.delegate = self
+        
         if assigneeSelected == false {
-            
-            let authentication = FacebookAuth()
-            if authentication.getLoginSource() == LoginSource.Facebook.rawValue {
-                assigneeCell.textLabel?.text = authentication.fbName
-                assigneeCell.detailTextLabel?.text = authentication.fbEmail
-            }
+            let userDetails = Authentication().getUserDetails()
+            assigneeCell.textLabel?.text = userDetails.name
+            assigneeCell.detailTextLabel?.text = userDetails.email
             
         }
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         //remove trailing unused cells
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
+
+            self.taskDetailsTextView.text = placeholderText
+            self.taskDetailsTextView.textColor = UIColor.lightGrayColor()
+
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+// MARK: - TextView controls
+    
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        
+        self.taskDetailsTextView.textColor = UIColor.blackColor()
+        
+        if(self.taskDetailsTextView.text == placeholderText) {
+            self.taskDetailsTextView.text = ""
+        }
+        
+        return true
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if(taskDetailsTextView.text == "") {
+            self.taskDetailsTextView.text = placeholderText
+            self.taskDetailsTextView.textColor = UIColor.lightGrayColor()
+        }
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        
+        let size = textView.bounds.size
+        let newSize = textView.sizeThatFits(CGSize(width: size.width, height: CGFloat.max))
+        
+        // Resize the cell only when cell's size is changed
+        if size.height != newSize.height {
+            UIView.setAnimationsEnabled(false)
+            tableView?.beginUpdates()
+            tableView?.endUpdates()
+            UIView.setAnimationsEnabled(true)
+        }
     }
     
 // MARK: - Table view data source
@@ -90,40 +141,10 @@ class CreateTaskVC: UITableViewController, AssigneeSelectionDelegate  {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "unwindToTaskGroupsSegue" {
             
+            let task = PFObject(className: "Task")
             
-            let taskObject = Tasks()
-            let taskHelper = TaskHelper()
-            let assigneeObject = TaskAssignee()
-            let realm = Realm()
-            
-            taskObject.taskID = taskHelper.generateID
-            taskObject.taskCreatorEmail = taskHelper.getCreatorEmail
-            taskObject.taskCreatorName = taskHelper.getCreatorName
-            
-            if let assigneeEmail = assigneeCell.detailTextLabel?.text,
-                assigneeName = assigneeCell.textLabel?.text {
-                assigneeObject.assigneeEmail = assigneeEmail
-                assigneeObject.assigneeName = assigneeName
-                taskObject.taskAssignedTo.append(assigneeObject)
-            }
-            
-            taskObject.taskName = "Test Task \(realm.objects(Tasks).count + 1)"
-            taskObject.taskDescription = "Test task description to understand display on iPhone screen if description is really long."
-            taskObject.taskStatus = TaskStatus.New.rawValue
-            
-            
-            realm.write {realm.add(taskObject)}
-
-            let newTask = taskObject.toDictionary() as? [String : AnyObject]
-            
-            Alamofire.request(.POST, "http://52.25.48.116:9000/api/tasks/create", parameters: newTask, encoding: .JSON)
 
         }
         
     }
-    
-    
-    
-
-
 }

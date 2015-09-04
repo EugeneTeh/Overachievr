@@ -12,6 +12,8 @@ import FBSDKLoginKit
 import RealmSwift
 import Alamofire
 import SwiftyJSON
+import Parse
+import ParseUI
 
 enum LoginSource: String {
     case Facebook = "Facebook"
@@ -19,13 +21,29 @@ enum LoginSource: String {
 
 class Authentication {
     let realm = Realm()
-    let userObject = Users()
+    //let memoryRealm = Realm(configuration: Realm.Configuration(inMemoryIdentifier: "memoryRealm"))
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
     let loginVC = "LoginVC"
-
     
-    func getLoginSource () -> String {
+    var isUserInfoPopulated: Bool = false {
+        didSet {
+            if isUserInfoPopulated {
+                self.registerForAPNS(UIApplication.sharedApplication())
+            }
+        }
+    }
+    
+    func isLoggedIn() -> Bool {
+        println(getLoginSource())
+        if getLoginSource() != "" {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func getLoginSource() -> String {
         if let user = realm.objects(Users).first {
             return user.userAuthSource
         } else {
@@ -34,20 +52,44 @@ class Authentication {
 
     }
     
-    func resetLogin() {
-        if self.getLoginSource() == LoginSource.Facebook.rawValue {
-            println("Token reset")
-            FBSDKAccessToken.setCurrentAccessToken(nil)
-            FBSDKLoginManager().logOut()
+    func logout() {
+        PFUser.logOut()
+        var currentUser = PFUser.currentUser()
+        goToLoginVC(true)
+    }
+    
+    func getUserDetails() -> (name: String, email: String) {
+    
+        if let user = PFUser.currentUser() {
+            user.fetchFromLocalDatastoreInBackground()
+            if let name = user.valueForKey("name") as? String {
+                if let email = user.email {
+                    return (name,email)
+                } else {
+                    return (name,"")
+                }
+            } else {
+                return ("","")
+            }
+            
+        } else {
+            return ("","")
         }
-        goToLoginVC()
+        
     }
     
-    func goToLoginVC () {
-        self.appDel.window?.rootViewController = self.mainStoryboard.instantiateViewControllerWithIdentifier(self.loginVC) as? UIViewController
+    func goToLoginVC (shouldAnimate: Bool) {
+        let logInController = LoginVC()
+        logInController.fields = (PFLogInFields.UsernameAndPassword
+            | PFLogInFields.LogInButton
+            | PFLogInFields.SignUpButton
+            | PFLogInFields.Facebook
+            | PFLogInFields.Twitter
+            | PFLogInFields.PasswordForgotten)
+        self.appDel.window?.rootViewController!.presentViewController(logInController, animated: shouldAnimate, completion: nil)
     }
     
-    func goToIntialVC () {
+    func goToInitialVC () {
         self.appDel.window?.rootViewController = self.mainStoryboard.instantiateInitialViewController() as? UIViewController
     }
     
@@ -55,25 +97,30 @@ class Authentication {
         if let user = realm.objects(Users).first {
             realm.write {
                 user.userAPNSToken = token
-                self.realm.add(user)
+                //self.realm.add(user)
             }
         }
     }
     
     func registerForAPNS(application: UIApplication) {
-        var settings = UIUserNotificationSettings(forTypes: .Badge | .Alert | .Sound, categories: nil)
-        application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
     }
     
+    func requestUserNotificationPermission(application: UIApplication) {
+        var settings = UIUserNotificationSettings(forTypes: .Badge | .Alert | .Sound, categories: nil)
+        application.registerUserNotificationSettings(settings)
+    }
+    
     func isFirstTimeUser(email: String) -> Bool {
-        if self.realm.objects(Users).filter("userPrimaryEmail = '\(email)'").count > 0 {
+        var emailCount = realm.objects(Users).filter("userEmail = '\(email)'").count
+
+        if emailCount > 0 { // user exists
             return false
-        } else {            
-            self.userObject.userPrimaryEmail = email
-            self.userObject.userIsRegistered = true
-            self.userObject.userRegisteredDateTime = NSDate().formattedDateTimeToString("yyyy-MM-dd'T'HH:mm:ssz")
-            realm.write {self.realm.add(self.userObject)}
+        } else {
+            let userObject = Users()
+            userObject.userEmail = email
+            userObject.userRegisteredDateTime = NSDate().formattedDateTimeToString("yyyy-MM-dd'T'HH:mm:ssz")
+            realm.write {self.realm.add(userObject)}
             return true
         }
     }
@@ -81,13 +128,15 @@ class Authentication {
 
 class ServerAuth: Authentication {
     let baseURL = "http://52.25.48.116:9000/api/"
-    var isRegisteredOnServer: Bool = false {
+    var isRegisteredOnServer: (status: Bool,email: String?) = (false, nil) {
         didSet {
-            if let user = self.realm.objects(Users).first {
-                if isRegisteredOnServer {
-                    putServerUserInfo("users/update", object: user.toDictionary() as! [String : AnyObject])
-                } else {
-                    postServerUserInfo("users/create", object: user.toDictionary() as! [String : AnyObject])
+            if let email = isRegisteredOnServer.email {
+                if let user = self.realm.objects(Users).filter("userFBEmail = '\(email)'").first {
+                    if isRegisteredOnServer.status {
+                        putServerUserInfo("users/update", object: user.toDictionary() as! [String : AnyObject])
+                    } else {
+                        postServerUserInfo("users/create", object: user.toDictionary() as! [String : AnyObject])
+                    }
                 }
             }
         }
@@ -103,9 +152,9 @@ class ServerAuth: Authentication {
         Alamofire.request(Alamofire.Method.PUT, "\(self.baseURL)\(path)", parameters: object, encoding: Alamofire.ParameterEncoding.JSON)
     }
     
-    func setServerUserInfo() {
-        if let user = self.realm.objects(Users).first {
-            self.isRegisteredOnServer(user.userPrimaryEmail)
+    func setServerUserInfo(email: String) {
+        if let user = self.realm.objects(Users).filter("userEmail = '\(email)'").first {
+            self.isRegisteredOnServer(user.userEmail)
         }
     }
     
@@ -117,14 +166,14 @@ class ServerAuth: Authentication {
                 println(error)
             } else if let data: AnyObject = data {
                 let user = JSON(data)
-                if let responseEmail = user["userPrimaryEmail"].string {
+                if let responseEmail = user["userEmail"].string {
                     if responseEmail == userEmail {
-                        self.isRegisteredOnServer = true
+                        self.isRegisteredOnServer = (true, responseEmail)
                     } else {
                         println("Non-matching response")
                     }
                 } else {
-                    self.isRegisteredOnServer = false
+                    self.isRegisteredOnServer = (false,nil)
             }
 
         }
@@ -135,53 +184,33 @@ class ServerAuth: Authentication {
     // MARK: - Facebook Login Methods
 
 class FacebookAuth: Authentication {
-    let fbReadPermissions = ["public_profile", "email", "user_friends"]
-    var isUserInfoPopulated: Bool = false {
-        didSet {
-            if isUserInfoPopulated {
-                self.registerForAPNS(UIApplication.sharedApplication())
-            }
-        }
-    }
-    var fbName: String {
-        if let user = self.realm.objects(Users).first {
-            return user.userFBName
-        } else {
-            return ""
-        }
-    }
-    var fbEmail: String {
-        if let user = self.realm.objects(Users).first {
-            return user.userFBEmail
-        } else {
-            return ""
-        }
-    }
 
-    var fbAccessTokenAvailable: Bool {
+    var fbAccessTokenAvailable: (tokenAvailable: Bool, tokenString: String) {
         if let fbAccessToken = FBSDKAccessToken.currentAccessToken() {
-            return true
+            return (true, fbAccessToken.tokenString)
         } else {
-            return false
+            return (false, "")
         }
     }
     
     func loginToFacebook () {
-        FBSDKLoginManager().logInWithReadPermissions(self.fbReadPermissions, handler: { (result, error) -> Void in
-            
+        let fbReadPermissions = ["public_profile", "email", "user_friends"]
+        
+        FBSDKLoginManager().logInWithReadPermissions(fbReadPermissions, handler: { (result, error) -> Void in
             if let fbError = error {
                 //handle error
+            } else if (result.isCancelled) {
+                self.goToLoginVC(false)
             } else {
                 if result.grantedPermissions.contains("email") {
-                    AddressBook().getAddressBookNames()
-                    self.goToIntialVC()
-                    
+                    self.goToInitialVC()
                 }
             }
         })
     }
     
     func setFBUserInfo() {
+        println("Setting FB user info")
         FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture"]).startWithCompletionHandler({ (connection, result, error) -> Void in
             
             if let fbError = error {
@@ -189,33 +218,19 @@ class FacebookAuth: Authentication {
                 println(fbError)
             } else {
                 let fbRequestResults = result as! NSDictionary
+                var user = PFUser.currentUser()
                 
-                // ensure user exists in DB
-                if let userEmail = fbRequestResults.valueForKey("email") as? String {
-                    self.isFirstTimeUser(userEmail)
-                }
+                user?.setObject(fbRequestResults["email"]!, forKey: "email")
+                user?.setObject(fbRequestResults["email"]!, forKey: "username")
+                user?.setObject(fbRequestResults["first_name"]!, forKey: "firstName")
+                user?.setObject(fbRequestResults["last_name"]!, forKey: "lastName")
+                user?.setObject(fbRequestResults["name"]!, forKey: "name")
+                //user?.setObject(fbRequestResults["picture"]!, forKey: "picURL")
                 
-                // update user record
+                user?.pinInBackground()
+                user!.saveEventually()
                 
-                self.realm.write {
-                    self.userObject.userAuthSource = LoginSource.Facebook.rawValue
-                    for (key, value) in fbRequestResults {
-                        if key as! String == "id" {
-                            self.userObject.userFBID = value as! String
-                        } else if key as! String == "name" {
-                            self.userObject.userFBName = value as! String
-                        } else if key as! String == "first_name" {
-                            self.userObject.userFBFirstName = value as! String
-                        } else if key as! String == "last_name" {
-                            self.userObject.userFBLastName = value as! String
-                        } else if key as! String == "email" {
-                            self.userObject.userFBEmail = value as! String
-                        } else if key as! String == "picture" {
-                            //let url =
-                        }
-                    }
-                }
-                self.isUserInfoPopulated = true
+
             }
         })
     }

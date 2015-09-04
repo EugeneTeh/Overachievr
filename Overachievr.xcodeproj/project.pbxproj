@@ -19,6 +19,7 @@
 		A706F5021B8AD51600ADA085 /* MainContainerGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F5011B8AD51600ADA085 /* MainContainerGestures.swift */; };
 		A706F5381B8D466A00ADA085 /* TaskGroupsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F5371B8D466A00ADA085 /* TaskGroupsTVC.swift */; };
 		A706F53C1B8E82EC00ADA085 /* CollaboratorTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */; };
+		A73FB84F1B98316F00815B76 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB84E1B98316F00815B76 /* SignUpVC.swift */; };
 		A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */; };
 		A77135E41B807DB60065A24E /* OverachievrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135E31B807DB60065A24E /* OverachievrTests.swift */; };
 		A77135EE1B807E110065A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77135ED1B807E110065A24E /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 		A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136111B807ED50065A24E /* CustomCellHelper.swift */; };
 		A771361A1B807EEB0065A24E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77136181B807EEB0065A24E /* Images.xcassets */; };
 		A771361B1B807EEB0065A24E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A77136191B807EEB0065A24E /* LaunchScreen.xib */; };
+		B1BF7853C5B447DB52A337D2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36D7D430851A04B84982514 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 
 /* Begin PBXFileReference section */
 		2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Overachievr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5105EA9BDD5003474117CF12 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		5BE88076ADD19330FDEF40B9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A706F4D81B829C8D00ADA085 /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		A706F4EC1B8632E300ADA085 /* MainContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerVC.swift; sourceTree = "<group>"; };
@@ -74,6 +78,20 @@
 		A706F5011B8AD51600ADA085 /* MainContainerGestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerGestures.swift; sourceTree = "<group>"; };
 		A706F5371B8D466A00ADA085 /* TaskGroupsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskGroupsTVC.swift; sourceTree = "<group>"; };
 		A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollaboratorTVC.swift; sourceTree = "<group>"; };
+		A715A1E31B97187F00C4FFDA /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		A715A1E51B97188E00C4FFDA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		A715A1E71B9718A200C4FFDA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		A715A1E91B9718B000C4FFDA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A715A1EB1B9718BC00C4FFDA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A715A1ED1B9718CE00C4FFDA /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		A715A1EF1B9718D700C4FFDA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A715A1F11B9718E000C4FFDA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A715A1F31B9718EA00C4FFDA /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		A715A1F51B9718F400C4FFDA /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A715A1F71B9718FD00C4FFDA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A715A1F91B97190900C4FFDA /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		A715A1FB1B97191800C4FFDA /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		A73FB84E1B98316F00815B76 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		A77135C51B807DB60065A24E /* Overachievr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overachievr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135CD1B807DB60065A24E /* Overachievr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Overachievr.xcdatamodel; sourceTree = "<group>"; };
 		A77135DD1B807DB60065A24E /* OverachievrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverachievrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +116,7 @@
 		A77136191B807EEB0065A24E /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		B724DF12F53EE3459E67EF35 /* Pods-Overachievr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Overachievr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr.debug.xcconfig"; sourceTree = "<group>"; };
 		BA1A9CFD5040823D0B17657E /* Pods-Overachievr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Overachievr.release.xcconfig"; path = "Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr.release.xcconfig"; sourceTree = "<group>"; };
+		E36D7D430851A04B84982514 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3327E0C01F2AF9D41DB52E2E /* Pods_Overachievr.framework in Frameworks */,
+				B1BF7853C5B447DB52A337D2 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +202,15 @@
 			name = "Task Groups Tab";
 			sourceTree = "<group>";
 		};
+		A73FB84D1B98313700815B76 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				A77135F31B807E2E0065A24E /* LoginVC.swift */,
+				A73FB84E1B98316F00815B76 /* SignUpVC.swift */,
+			);
+			name = Authentication;
+			sourceTree = "<group>";
+		};
 		A77135BC1B807DB60065A24E = {
 			isa = PBXGroup;
 			children = (
@@ -254,10 +283,10 @@
 		A77136051B807E920065A24E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A73FB84D1B98313700815B76 /* Authentication */,
 				A706F53A1B8D47AE00ADA085 /* Task Groups Tab */,
 				A706F5391B8D479C00ADA085 /* Settings Tab */,
 				A77135F21B807E2E0065A24E /* TasksMainVC.swift */,
-				A77135F31B807E2E0065A24E /* LoginVC.swift */,
 				A706F5361B8D401D00ADA085 /* Future Custom Containers */,
 			);
 			name = Controllers;
@@ -292,7 +321,21 @@
 		A771361C1B807F390065A24E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A715A1FB1B97191800C4FFDA /* libsqlite3.dylib */,
+				A715A1F91B97190900C4FFDA /* libz.dylib */,
+				A715A1F71B9718FD00C4FFDA /* SystemConfiguration.framework */,
+				A715A1F51B9718F400C4FFDA /* StoreKit.framework */,
+				A715A1F31B9718EA00C4FFDA /* Social.framework */,
+				A715A1F11B9718E000C4FFDA /* Security.framework */,
+				A715A1EF1B9718D700C4FFDA /* QuartzCore.framework */,
+				A715A1ED1B9718CE00C4FFDA /* MobileCoreServices.framework */,
+				A715A1EB1B9718BC00C4FFDA /* CoreLocation.framework */,
+				A715A1E91B9718B000C4FFDA /* CoreGraphics.framework */,
+				A715A1E71B9718A200C4FFDA /* CFNetwork.framework */,
+				A715A1E51B97188E00C4FFDA /* AudioToolbox.framework */,
+				A715A1E31B97187F00C4FFDA /* Accounts.framework */,
 				2687A4D474DC47181E14C533 /* Pods_Overachievr.framework */,
+				E36D7D430851A04B84982514 /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -302,6 +345,8 @@
 			children = (
 				B724DF12F53EE3459E67EF35 /* Pods-Overachievr.debug.xcconfig */,
 				BA1A9CFD5040823D0B17657E /* Pods-Overachievr.release.xcconfig */,
+				5BE88076ADD19330FDEF40B9 /* Pods.debug.xcconfig */,
+				5105EA9BDD5003474117CF12 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -440,7 +485,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A706F4DE1B84D31A00ADA085 /* ShellScript */ = {
@@ -468,7 +513,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -491,6 +536,7 @@
 				A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */,
 				A706F4FC1B88F27B00ADA085 /* CreateTaskPanelVC.swift in Sources */,
 				A77135F41B807E2E0065A24E /* SelectContactsTVC.swift in Sources */,
+				A73FB84F1B98316F00815B76 /* SignUpVC.swift in Sources */,
 				A706F4D91B829C8D00ADA085 /* Users.swift in Sources */,
 				A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */,
 				A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */,
@@ -607,7 +653,7 @@
 		};
 		A77135E81B807DB60065A24E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B724DF12F53EE3459E67EF35 /* Pods-Overachievr.debug.xcconfig */;
+			baseConfigurationReference = 5BE88076ADD19330FDEF40B9 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -626,7 +672,7 @@
 		};
 		A77135E91B807DB60065A24E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA1A9CFD5040823D0B17657E /* Pods-Overachievr.release.xcconfig */;
+			baseConfigurationReference = 5105EA9BDD5003474117CF12 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -639,6 +685,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Overachievr/Overachievr-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Release;
 		};

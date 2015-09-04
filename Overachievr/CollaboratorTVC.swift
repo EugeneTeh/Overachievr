@@ -59,7 +59,7 @@ class CollaboratorTVC: UITableViewController {
         // Configure the cell...
         let task = collaboratorTaskList[indexPath.row]
         
-        cell.textLabel?.text = task.taskName
+        cell.textLabel?.text = task.taskDescription
         cell.detailTextLabel?.text = "\(task.taskCreatorName) assigned this to \(task.taskAssignedTo[0].assigneeName)"
 
         return cell

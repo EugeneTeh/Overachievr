@@ -8,8 +8,10 @@
 
 import UIKit
 import FBSDKCoreKit
+import ParseFacebookUtilsV4
 import Fabric
 import Crashlytics
+import ParseUI
 
 
 
@@ -23,6 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         Fabric.with([Crashlytics()])
+        Parse.enableLocalDatastore()
+        Parse.setApplicationId("srNgkNOaZKGIomxOaDXbBUO12xnGCEmZJkQwXIeP", clientKey: "rQWbgCI1FaONEv5BiuGoZCeKdWkMKji99tfiZ5jy")
+        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
+        
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -51,19 +58,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBSDKAppEvents.activateApp()
         
-        
         // Check if user is logged in
         
-        let fbAuthCheck = FacebookAuth()
-        
-        if fbAuthCheck.fbAccessTokenAvailable {
-            if fbAuthCheck.fbEmail != "" {
-                AddressBook().getAddressBookNames()
-                fbAuthCheck.setFBUserInfo()
-            }
+        if PFUser.currentUser() == nil {
+            println("User is not logged in")
+            Authentication().goToLoginVC(false)
         } else {
-            fbAuthCheck.goToLoginVC()
+            if FacebookAuth().fbAccessTokenAvailable.tokenAvailable {
+                FacebookAuth().setFBUserInfo()
+            }
+            AddressBook().getAddressBookNames()
         }
+        
+        /*
+        if Authentication().isLoggedIn() {
+            println("Logged in")
+            AddressBook().getAddressBookNames()
+            Authentication().goToInitialVC()
+        } else {
+            println("not logged in")
+            Authentication().goToLoginVC() 
+        }
+*/
         
     }
 
@@ -73,6 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         // self.saveContext()
     }
+    
+
 
 // MARK: - Push Notifications
     
@@ -93,8 +111,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        Authentication().setDeviceToken(deviceToken.description)
-        ServerAuth().setServerUserInfo()
+        let authentication = Authentication()
+        let userEmail = authentication.getUserDetails().email
+        
+        authentication.setDeviceToken(deviceToken.description)
+        ServerAuth().setServerUserInfo(userEmail)
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {

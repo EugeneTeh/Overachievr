@@ -75,7 +75,7 @@ class SettingsTabTVC: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 0 {
-            Authentication().resetLogin()
+            Authentication().logout()
         }
     }
 

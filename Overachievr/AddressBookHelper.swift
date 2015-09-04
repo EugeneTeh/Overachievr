@@ -61,25 +61,25 @@ class AddressBook {
         let emailArray:ABMultiValueRef = extractABEmailRef(ABRecordCopyValue(addressBookRecord, kABPersonEmailProperty))!
         
         for (var j = 0; j < ABMultiValueGetCount(emailArray); ++j) {
-            var emailAdd = ABMultiValueCopyValueAtIndex(emailArray, j)
-            var email = extractABEmailAddress(emailAdd)
+            var emailArray = ABMultiValueCopyValueAtIndex(emailArray, j)
+            var emailExtract = extractABEmailAddress(emailArray)
             
             // check email validity
-            if email?.rangeOfString("@") != nil {
-                let contactObject = Contacts()
-                let name = getContactName(addressBookRecord)
-                
-                let contactExists = realm.objects(Contacts).filter("contactEmail = '\(email!)'").count
-
-                
-                if contactExists < 1 {
-
-                    contactObject.contactEmail = email!
-                    contactObject.contactName = name
+            if let email = emailExtract {
+                if isValidEmail(email) {
+                    let contactObject = Contacts()
+                    let name = getContactName(addressBookRecord)
                     
-                    realm.write {realm.add(contactObject)}
+                    let contactExists = realm.objects(Contacts).filter("contactEmail = '\(email)'").count
+                    
+                    
+                    if contactExists < 1 {
+                        contactObject.contactEmail = email
+                        contactObject.contactName = name
+                        
+                        realm.write {realm.add(contactObject)}
+                    }
                 }
-
             }
             
         }
@@ -111,5 +111,10 @@ class AddressBook {
             return Unmanaged.fromOpaque(abEmailAddress.toOpaque()).takeUnretainedValue() as CFStringRef as String
         }
         return nil
+    }
+    
+    func isValidEmail(candidate: String) -> Bool {
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
+        return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluateWithObject(candidate)
     }
 }

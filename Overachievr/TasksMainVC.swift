@@ -52,8 +52,8 @@ class TasksMainVC: UITableViewController, UITableViewDelegate {
     
     @IBAction func logoutButtonPressed(sender: AnyObject) {
         let authCheck = Authentication()
-        authCheck.resetLogin()
-        authCheck.goToLoginVC()
+        authCheck.logout()
+        authCheck.goToLoginVC(true)
     }
     
     func refreshView() {
@@ -100,7 +100,7 @@ class TasksMainVC: UITableViewController, UITableViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("taskCell", forIndexPath: indexPath) as! UITableViewCell
         let task = taskList[indexPath.row]
 
-        cell.textLabel!.text = task.taskName
+        cell.textLabel!.text = task.taskDescription
         cell.detailTextLabel!.text = ("\(task.taskCreatorEmail) assigned this \(task.taskStatus) task on \(task.taskCreatedDateTime)")
         
         return cell

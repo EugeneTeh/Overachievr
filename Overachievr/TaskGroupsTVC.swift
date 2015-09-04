@@ -16,11 +16,11 @@ protocol TaskGroupsDelegate {
 
 class TaskGroupsTVC: UITableViewController {
     
-    var uniqueAssignees = Set(Realm().objects(TaskAssignee).valueForKey("assigneeEmail") as! [String])
     var assigneeList = []
     let realm = Realm()
     var delegate: TaskGroupsDelegate?
     var fillerPanel: UIView? = nil
+    var numberOfSections = 1
     
     var showFillerPanel: Bool = false {
         didSet {
@@ -37,7 +37,7 @@ class TaskGroupsTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println(Realm.defaultPath)
+        //println(Realm.Configuration.defaultConfiguration.path)
         
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: Selector("refreshView"), forControlEvents: UIControlEvents.ValueChanged)
@@ -51,12 +51,14 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        uniqueAssignees = Set(Realm().objects(TaskAssignee).valueForKey("assigneeEmail") as! [String])
+        assigneeList = {
+            return Array(Set(Realm().objects(TaskAssignee).valueForKey("assigneeEmail") as! [String]))
+            }()
 
         //remove trailing unused cells
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
 
-        if uniqueAssignees.count == 0 {
+        if assigneeList.count == 0 {
             showFillerPanel = true
         } else {
             showFillerPanel = false
@@ -70,7 +72,6 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     func refreshView() {
-        println("View refreshed")
         dispatch_async(dispatch_get_main_queue()) {
             
             if (self.refreshControl!.refreshing) {
@@ -86,7 +87,6 @@ class TaskGroupsTVC: UITableViewController {
         if shouldShow {
             setupFillerPanel()
         } else {
-            //fillerPanel!.subviews.map({ $0.removeFromSuperview() })
             if let fillerPanelExists = fillerPanel {
                 fillerPanelExists.removeFromSuperview()
             }
@@ -133,29 +133,33 @@ class TaskGroupsTVC: UITableViewController {
 
     }
     
+    func checkForSelf() -> Int {
+        //let userEmail = Authentication().getUserDetails().email
+        
+        return 1
 
+    }
     
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 1
+        numberOfSections = checkForSelf()
+        return numberOfSections
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         
-        return uniqueAssignees.count
+        return assigneeList.count
     }
 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TaskGroupsCell", forIndexPath: indexPath) as! UITableViewCell
         
-        assigneeList = Array(uniqueAssignees)
+        //assigneeList = Array(uniqueAssignees)
         let groups = Realm().objects(TaskAssignee).filter("assigneeEmail = '\(assigneeList[indexPath.row])'")
 
         // Configure the cell...

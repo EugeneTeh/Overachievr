@@ -30,31 +30,7 @@ class TaskHelper {
         let taskIDPart2 = NSUUID().UUIDString
         return ("\(taskIDPart1)-\(taskIDPart2)")
     }
-
-    var getCreatorEmail: String {
-        if Authentication().getLoginSource() == LoginSource.Facebook.rawValue {
-            return FacebookAuth().fbEmail
-        } else {
-            return ""
-        }
         
-    }
-    
-    var getCreatorName: String {
-        if Authentication().getLoginSource() == LoginSource.Facebook.rawValue {
-            return FacebookAuth().fbName
-        } else {
-            return ""
-        }
-        
-    }
-    
-    
-    
-    func createNewTask(assigneeName: String, assigneeEmail: String) {
-        
-    }
-    
     func getAssignedTask(taskID: String) {
         Alamofire.request(.GET, "http://52.25.48.116:9000/api/tasks/\(taskID)").responseJSON { _, _, data, error in
             if let anError = error {
