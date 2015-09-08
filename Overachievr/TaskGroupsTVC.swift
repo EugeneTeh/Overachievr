@@ -2,33 +2,34 @@
 //  TaskGroupsTVC.swift
 //  Overachievr
 //
-//  Created by Eugene Teh on 8/26/15.
+//  Created by Eugene Teh on 9/8/15.
 //  Copyright (c) 2015 Overachievr. All rights reserved.
 //
 
 import UIKit
-import RealmSwift
+import Parse
 
 
-protocol TaskGroupsDelegate {
-    func didSelectGroupAtIndexPath(groupID: String)
-}
 
 class TaskGroupsTVC: UITableViewController {
     
-    var assigneeList = []
-    let realm = Realm()
-    var delegate: TaskGroupsDelegate?
+    var assigneeList: [(groupName: String, description: String, emails:[String])] = [] {
+        didSet {
+            if assigneeList.count == 0 {
+                shouldShowFillerPanel = true
+            } else {
+                shouldShowFillerPanel = false
+            }
+        }
+    }
     var fillerPanel: UIView? = nil
-    var numberOfSections = 1
-    
-    var showFillerPanel: Bool = false {
+    var shouldShowFillerPanel: Bool = false {
         didSet {
             if fillerPanel == nil {
-                toggleFillerPanel(showFillerPanel)
+                toggleFillerPanel(shouldShowFillerPanel)
             } else {
-                if showFillerPanel == false {
-                    toggleFillerPanel(showFillerPanel)
+                if shouldShowFillerPanel == false {
+                    toggleFillerPanel(shouldShowFillerPanel)
                 }
             }
         }
@@ -37,12 +38,10 @@ class TaskGroupsTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //println(Realm.Configuration.defaultConfiguration.path)
-        
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: Selector("refreshView"), forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl!)
-        
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -51,19 +50,11 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        assigneeList = {
-            return Array(Set(Realm().objects(TaskAssignee).valueForKey("assigneeEmail") as! [String]))
-            }()
-
+        getAssigneesFromLocalDatastore()
+        
         //remove trailing unused cells
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
-
-        if assigneeList.count == 0 {
-            showFillerPanel = true
-        } else {
-            showFillerPanel = false
-        }
-        refreshView()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,52 +68,17 @@ class TaskGroupsTVC: UITableViewController {
             if (self.refreshControl!.refreshing) {
                 self.refreshControl!.endRefreshing()
             }
-            
+            //self.loadObjects()
             self.tableView.reloadData()
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            println("View refreshed")
         }
     }
     
-    func toggleFillerPanel(shouldShow: Bool) {
-        if shouldShow {
-            setupFillerPanel()
-        } else {
-            if let fillerPanelExists = fillerPanel {
-                fillerPanelExists.removeFromSuperview()
-            }
-            fillerPanel = nil
-        }
-    }
+    // MARK: - Actions
     
-    func setupFillerPanel() {
-        fillerPanel = UIView()
-        fillerPanel?.frame = self.view.bounds
-        
-        let createTaskButton = UIButton()
-        createTaskButton.setImage(UIImage(named: "button_CreateTask.pdf"), forState: .Normal)
-        createTaskButton.frame = CGRect(x:0, y:0, width: 160, height: 40)
-        createTaskButton.center = self.view.center
-        createTaskButton.addTarget(self, action: "createTaskButtonTapped:", forControlEvents: .TouchUpInside)
-        
-        
-        let letsGetStartedLabel = UILabel()
-        letsGetStartedLabel.frame = CGRect(x: 0, y: 0, width: 260, height: 260)
-        letsGetStartedLabel.center.x = self.view.center.x
-        letsGetStartedLabel.center.y = createTaskButton.center.y - 120
-        letsGetStartedLabel.numberOfLines = 0
-        letsGetStartedLabel.textAlignment = .Center
-        letsGetStartedLabel.textColor = UIColor.lightGrayColor()
-        letsGetStartedLabel.font = UIFont(name: "Avenir-Light", size: 18)
-        letsGetStartedLabel.text = "You have no tasks out there right now. Tap the button below, or - SWIPE UP - to quickly create some!"
-        
-        
-        fillerPanel!.addSubview(createTaskButton)
-        fillerPanel!.addSubview(letsGetStartedLabel)
-        self.view.addSubview(fillerPanel!)
-    }
-    
-    func createTaskButtonTapped(sender: AnyObject) {
-        performSegueWithIdentifier("createTaskSegue", sender: nil)
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegueWithIdentifier("selectedTaskGroupSegue", sender: nil)
     }
     
     @IBAction func addGroupBarButtonTapped(sender: AnyObject) {
@@ -130,100 +86,92 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     @IBAction func unwindToTaskGroups(segue:UIStoryboardSegue) {
-
-    }
-    
-    func checkForSelf() -> Int {
-        //let userEmail = Authentication().getUserDetails().email
         
-        return 1
-
     }
     
+    // MARK: - Segue
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "selectedTaskGroupSegue" {
+            let group = assigneeList[self.tableView.indexPathForSelectedRow()!.row] as (groupName: String, description: String, emails: [String])
+            let destinationVC = segue.destinationViewController as! CollaboratorTVC
+            
+            destinationVC.didSelectGroup(group)
+        }
+        
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        numberOfSections = checkForSelf()
-        return numberOfSections
+        // #warning Potentially incomplete method implementation.
+        // Return the number of sections.
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        
         return assigneeList.count
     }
-
-
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TaskGroupsCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("TaskGroupsCell") as! UITableViewCell
         
-        //assigneeList = Array(uniqueAssignees)
-        let groups = Realm().objects(TaskAssignee).filter("assigneeEmail = '\(assigneeList[indexPath.row])'")
-
-        // Configure the cell...
-        cell.textLabel!.text = groups[0].assigneeName
-        cell.detailTextLabel!.text = groups[0].assigneeEmail
-
+        cell.textLabel?.text = assigneeList[indexPath.row].groupName
+        cell.detailTextLabel?.text = assigneeList[indexPath.row].description
+        
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
-        performSegueWithIdentifier("selectedTaskGroupSegue", sender: nil)
-    }
-
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    // MARK: - Navigation
-
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "selectedTaskGroupSegue" {
-            let group = assigneeList[self.tableView.indexPathForSelectedRow()!.row] as! String
-            let destinationVC = segue.destinationViewController as! CollaboratorTVC
-
-            destinationVC.didSelectGroup(group)
+    func getAssigneesFromLocalDatastore() {
+        getUserCreatedTasksQuery().fromLocalDatastore().findObjectsInBackgroundWithBlock {
+            (objects: [AnyObject]?, error: NSError?) -> Void in
+            if error == nil {
+                if let objects = objects {
+                    for object in objects {
+                        if let assignees = object.valueForKey("taskAssignedTo") as? NSArray {
+                            var groupName: String = ""
+                            var description: String = ""
+                            var emails: [String] = []
+                            for assignee in assignees {
+                                groupName += assignee.valueForKey("name") as! String + " "
+                                description += assignee.valueForKey("email") as! String + " "
+                                emails += [assignee.valueForKey("email") as! String]
+                            }
+                            self.assigneeList += [(groupName: groupName, description: description, emails: emails)]
+                        }
+                    }
+                }
+                self.assigneeList = self.removeDuplicateAssignees(self.assigneeList)
+                self.refreshView()
+            } else {
+                println(error)
+            }
         }
-
     }
 
+    func getUserCreatedTasksQuery() -> PFQuery {
+        var query = PFQuery(className: "Task")
+        let userDetails = Authentication().getUserDetails()
+        query.whereKey("taskCreatorEmail", equalTo: userDetails.email)
+        query.orderByAscending("updatedAt")
+        
+        return query
+    }
+    
+    func removeDuplicateAssignees(array: [(groupName: String, description: String, emails: [String])]) -> [(groupName: String, description: String, emails: [String])] {
+        var encountered = Set<String>()
+        var result: [(groupName: String, description: String, emails: [String])] = []
+        for value in array {
+            if !encountered.contains(value.description) {
+                // Add value to the set.
+                encountered.insert(value.description)
+                // ... Append the value.
+                result.append(value)
+            }
+        }
+        return result
+    }
 
 }
-

@@ -84,7 +84,7 @@ class Authentication {
             | PFLogInFields.LogInButton
             | PFLogInFields.SignUpButton
             | PFLogInFields.Facebook
-            | PFLogInFields.Twitter
+            //| PFLogInFields.Twitter
             | PFLogInFields.PasswordForgotten)
         self.appDel.window?.rootViewController!.presentViewController(logInController, animated: shouldAnimate, completion: nil)
     }
@@ -210,7 +210,7 @@ class FacebookAuth: Authentication {
     }
     
     func setFBUserInfo() {
-        println("Setting FB user info")
+        //println("Setting FB user info")
         FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, email, picture"]).startWithCompletionHandler({ (connection, result, error) -> Void in
             
             if let fbError = error {

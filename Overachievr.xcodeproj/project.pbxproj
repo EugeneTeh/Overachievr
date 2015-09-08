@@ -17,9 +17,11 @@
 		A706F4FC1B88F27B00ADA085 /* CreateTaskPanelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4FB1B88F27B00ADA085 /* CreateTaskPanelVC.swift */; };
 		A706F5001B89194700ADA085 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */; };
 		A706F5021B8AD51600ADA085 /* MainContainerGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F5011B8AD51600ADA085 /* MainContainerGestures.swift */; };
-		A706F5381B8D466A00ADA085 /* TaskGroupsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F5371B8D466A00ADA085 /* TaskGroupsTVC.swift */; };
+		A706F5381B8D466A00ADA085 /* TaskGroupsTVC_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F5371B8D466A00ADA085 /* TaskGroupsTVC_old.swift */; };
 		A706F53C1B8E82EC00ADA085 /* CollaboratorTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */; };
 		A73FB84F1B98316F00815B76 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB84E1B98316F00815B76 /* SignUpVC.swift */; };
+		A73FB8531B9E8A0800815B76 /* TaskGroupsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB8521B9E8A0800815B76 /* TaskGroupsTVC.swift */; };
+		A73FB8551B9E8A8900815B76 /* TGFillerPanelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB8541B9E8A8900815B76 /* TGFillerPanelExt.swift */; };
 		A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */; };
 		A77135E41B807DB60065A24E /* OverachievrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135E31B807DB60065A24E /* OverachievrTests.swift */; };
 		A77135EE1B807E110065A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77135ED1B807E110065A24E /* Main.storyboard */; };
@@ -76,7 +78,7 @@
 		A706F4FB1B88F27B00ADA085 /* CreateTaskPanelVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTaskPanelVC.swift; sourceTree = "<group>"; };
 		A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
 		A706F5011B8AD51600ADA085 /* MainContainerGestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerGestures.swift; sourceTree = "<group>"; };
-		A706F5371B8D466A00ADA085 /* TaskGroupsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskGroupsTVC.swift; sourceTree = "<group>"; };
+		A706F5371B8D466A00ADA085 /* TaskGroupsTVC_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskGroupsTVC_old.swift; sourceTree = "<group>"; };
 		A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollaboratorTVC.swift; sourceTree = "<group>"; };
 		A715A1E31B97187F00C4FFDA /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		A715A1E51B97188E00C4FFDA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -92,6 +94,8 @@
 		A715A1F91B97190900C4FFDA /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A715A1FB1B97191800C4FFDA /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A73FB84E1B98316F00815B76 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		A73FB8521B9E8A0800815B76 /* TaskGroupsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskGroupsTVC.swift; sourceTree = "<group>"; };
+		A73FB8541B9E8A8900815B76 /* TGFillerPanelExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGFillerPanelExt.swift; sourceTree = "<group>"; };
 		A77135C51B807DB60065A24E /* Overachievr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overachievr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135CD1B807DB60065A24E /* Overachievr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Overachievr.xcdatamodel; sourceTree = "<group>"; };
 		A77135DD1B807DB60065A24E /* OverachievrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverachievrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,10 +198,12 @@
 		A706F53A1B8D47AE00ADA085 /* Task Groups Tab */ = {
 			isa = PBXGroup;
 			children = (
-				A706F5371B8D466A00ADA085 /* TaskGroupsTVC.swift */,
+				A706F5371B8D466A00ADA085 /* TaskGroupsTVC_old.swift */,
 				A77135F11B807E2E0065A24E /* CreateTaskVC.swift */,
 				A77135F01B807E2E0065A24E /* SelectContactsTVC.swift */,
 				A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */,
+				A73FB8521B9E8A0800815B76 /* TaskGroupsTVC.swift */,
+				A73FB8541B9E8A8900815B76 /* TGFillerPanelExt.swift */,
 			);
 			name = "Task Groups Tab";
 			sourceTree = "<group>";
@@ -530,8 +536,9 @@
 				A77136131B807ED50065A24E /* AddressBookHelper.swift in Sources */,
 				A77136161B807ED50065A24E /* DateTimeHelper.swift in Sources */,
 				A706F4F11B86A3BB00ADA085 /* SettingsTabTVC.swift in Sources */,
+				A73FB8551B9E8A8900815B76 /* TGFillerPanelExt.swift in Sources */,
 				A706F4ED1B8632E300ADA085 /* MainContainerVC.swift in Sources */,
-				A706F5381B8D466A00ADA085 /* TaskGroupsTVC.swift in Sources */,
+				A706F5381B8D466A00ADA085 /* TaskGroupsTVC_old.swift in Sources */,
 				A77136141B807ED50065A24E /* AuthenticationHelper.swift in Sources */,
 				A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */,
 				A706F4FC1B88F27B00ADA085 /* CreateTaskPanelVC.swift in Sources */,
@@ -541,6 +548,7 @@
 				A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */,
 				A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */,
 				A77135F51B807E2E0065A24E /* CreateTaskVC.swift in Sources */,
+				A73FB8531B9E8A0800815B76 /* TaskGroupsTVC.swift in Sources */,
 				A706F53C1B8E82EC00ADA085 /* CollaboratorTVC.swift in Sources */,
 				A706F5001B89194700ADA085 /* KeyboardHelper.swift in Sources */,
 				A77136091B807EBF0065A24E /* Tasks.swift in Sources */,

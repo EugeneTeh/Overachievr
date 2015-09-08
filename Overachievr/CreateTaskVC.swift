@@ -95,8 +95,6 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
         }
     }
     
-// MARK: - Table view data source
-    
 
 // MARK: - Actions
     
@@ -113,6 +111,26 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
         assigneeSelected = true
         assigneeCell.textLabel?.text = assigneeName
         assigneeCell.detailTextLabel?.text = assigneeEmail
+    }
+    
+    func getAssigneeDetails() -> (name: String, email: String) {
+        var name = ""
+        var email = ""
+        if let assigneeName = assigneeCell.textLabel?.text {
+            name = assigneeName
+        }
+        if let assigneeEmail = assigneeCell.detailTextLabel?.text {
+            email = assigneeEmail
+        }
+        
+        return (name, email)
+    }
+    
+    func doesTaskGroupExistQuery(groupID: String) -> PFQuery {
+        var query = PFQuery(className: "TaskGroup")
+        query.whereKey("groupID", equalTo: groupID)
+        
+        return query
     }
     
 // MARK: - Display Controls
@@ -142,7 +160,25 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
         if segue.identifier == "unwindToTaskGroupsSegue" {
             
             let task = PFObject(className: "Task")
+            let taskGroup = PFObject(className: "TaskGroup")
+            let userDetails = Authentication().getUserDetails()
+            let assignees = getAssigneeDetails()
             
+            
+            task["taskID"] = TaskHelper().generateTaskID
+            task["taskDetails"] = taskDetailsTextView.text
+            task["taskCreatorName"] = userDetails.name
+            task["taskCreatorEmail"] = userDetails.email
+            task["taskStatus"] = TaskStatus.New.rawValue
+            
+            if assigneeCell.detailTextLabel?.text != userDetails.email {
+                task["taskAssignedDateTime"] = NSDate()
+            }
+            
+            task["taskAssignedTo"] = [["name": assignees.name, "email": assignees.email]]
+            
+            task.pinInBackground()
+            task.saveEventually()
 
         }
         

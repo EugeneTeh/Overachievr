@@ -25,10 +25,16 @@ enum TaskStatus: String {
 class TaskHelper {
     
     // generate TaskID
-    var generateID: String {
+    var generateTaskID: String {
         let taskIDPart1 = NSDate().formattedDateTimeToString("yyyyMMddhhmmss")
         let taskIDPart2 = NSUUID().UUIDString
-        return ("\(taskIDPart1)-\(taskIDPart2)")
+        return ("T\(taskIDPart1)-\(taskIDPart2)")
+    }
+    
+    var generateTaskGroupID: String {
+        let taskGroupIDPart1 = NSDate().formattedDateTimeToString("yyyyMMddhhmmss")
+        let taskGroupIDPart2 = NSUUID().UUIDString
+        return ("TG\(taskGroupIDPart1)-\(taskGroupIDPart2)")
     }
         
     func getAssignedTask(taskID: String) {
