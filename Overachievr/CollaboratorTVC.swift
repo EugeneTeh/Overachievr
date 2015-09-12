@@ -7,62 +7,95 @@
 //
 
 import UIKit
-import RealmSwift
+import Parse
+import ParseUI
 
-class CollaboratorTVC: UITableViewController {
+class CollaboratorTVC: PFQueryTableViewController {
     
-    var collaboratorTaskList = Realm().objects(Tasks)
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    var assignees: NSArray = []
+    
+    override init(style: UITableViewStyle, className: String!) {
+        super.init(style: style, className: className)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        // Configure the PFQueryTableView
+        self.parseClassName = "Task"
+        self.textKey = "taskDetails"
+        self.pullToRefreshEnabled = true
+        self.paginationEnabled = false
     }
+    
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         //remove trailing unused cells
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
     }
     
-    func didSelectGroup(groupDetails: (groupName: String, description: String, emails: [String])) {
-        //collaboratorTaskList = Realm().objects(Tasks).filter("ANY taskAssignedTo.assigneeEmail = '\(groupID)'")
+    func refreshView() {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.loadObjects()
+            self.tableView.reloadData()
+            
+            if (self.refreshControl!.refreshing) {
+                self.refreshControl!.endRefreshing()
+            }
+            
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            println("View refreshed")
+        })
+    }
+    
+    func didSelectGroup(groupDetails: (groupName: String, description: String, assignees: NSArray)) {
+        self.assignees = groupDetails.assignees
         self.title = groupDetails.groupName
+    }
+    
+    override func queryForTable() -> PFQuery {
+        let parseHelper = ParseHelper()
+        return parseHelper.getUserRelatedTasksWithSpecifiedAssigneeQuery(assignees).fromLocalDatastore()
+    }
+    
+    // MARK: - Table view controls
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            let object = self.objectAtIndexPath(indexPath)
+            
+            
+            object?.unpinInBackground()
+            removeObjectAtIndexPath(indexPath, animated: true)
+            if let taskID = object?.valueForKey("taskID") as? String {
+                ParseHelper().unsubscribeToPushChannel(taskID)
+            } else {
+                println("Did not unsubscribe to channel")
+            }
+            if let objects = self.objects {
+                if objects.count == 0 {
+                    performSegueWithIdentifier("returnToTaskGroupsSegue", sender: nil)
+                }
+            }
+        }
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 1
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return collaboratorTaskList.count
-    }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TaskCell", forIndexPath: indexPath) as! UITableViewCell
-
-        // Configure the cell...
-        let task = collaboratorTaskList[indexPath.row]
-        
-        cell.textLabel?.text = task.taskDescription
-        cell.detailTextLabel?.text = "\(task.taskCreatorName) assigned this to \(task.taskAssignedTo[0].assigneeName)"
-
-        return cell
+    
+    
+    // MARK: -  Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "unwindToTaskGroupsSegue" {
+            let destinationVC = segue.destinationViewController as! TaskGroupsTVC
+            destinationVC.getAssigneesFromLocalDatastore()
+        }
     }
 
 }

@@ -13,16 +13,20 @@ import Parse
 
 class TaskGroupsTVC: UITableViewController {
     
-    var assigneeList: [(groupName: String, description: String, emails:[String])] = [] {
+    var objects: [AnyObject] = []
+    var assigneeList: [(groupName: String, description: String, assignees: NSArray)] = [] {
         didSet {
+            shouldUpdateFromServer = true
             if assigneeList.count == 0 {
                 shouldShowFillerPanel = true
             } else {
                 shouldShowFillerPanel = false
             }
+            refreshView()
         }
     }
     var fillerPanel: UIView? = nil
+    var shouldUpdateFromServer: Bool = true
     var shouldShowFillerPanel: Bool = false {
         didSet {
             if fillerPanel == nil {
@@ -50,11 +54,13 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         getAssigneesFromLocalDatastore()
-        
+        if shouldUpdateFromServer {
+            refreshLocalDataStoreFromServer()
+        }
         //remove trailing unused cells
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,16 +69,14 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     func refreshView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
             if (self.refreshControl!.refreshing) {
                 self.refreshControl!.endRefreshing()
             }
-            //self.loadObjects()
-            self.tableView.reloadData()
+            
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            println("View refreshed")
-        }
+            self.tableView.reloadData()
+        })
     }
     
     // MARK: - Actions
@@ -86,14 +90,14 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     @IBAction func unwindToTaskGroups(segue:UIStoryboardSegue) {
-        
+
     }
     
     // MARK: - Segue
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "selectedTaskGroupSegue" {
-            let group = assigneeList[self.tableView.indexPathForSelectedRow()!.row] as (groupName: String, description: String, emails: [String])
+            let group = assigneeList[self.tableView.indexPathForSelectedRow()!.row] as (groupName: String, description: String, assignees: NSArray)
             let destinationVC = segue.destinationViewController as! CollaboratorTVC
             
             destinationVC.didSelectGroup(group)
@@ -118,60 +122,86 @@ class TaskGroupsTVC: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TaskGroupsCell") as! UITableViewCell
         
-        cell.textLabel?.text = assigneeList[indexPath.row].groupName
-        cell.detailTextLabel?.text = assigneeList[indexPath.row].description
+        if assigneeList.count > 0 {
+            cell.textLabel?.text = assigneeList[indexPath.row].groupName
+            cell.detailTextLabel?.text = assigneeList[indexPath.row].description
+        }
         
         return cell
     }
     
     func getAssigneesFromLocalDatastore() {
-        getUserCreatedTasksQuery().fromLocalDatastore().findObjectsInBackgroundWithBlock {
+        println("Getting assignees from local datastore")
+        let parseHelper = ParseHelper()
+        parseHelper.getUserRelatedTasksQuery().fromLocalDatastore().findObjectsInBackgroundWithBlock {
             (objects: [AnyObject]?, error: NSError?) -> Void in
             if error == nil {
+                var list: [(groupName: String, description: String, assignees: NSArray)] = []
+                
                 if let objects = objects {
-                    for object in objects {
-                        if let assignees = object.valueForKey("taskAssignedTo") as? NSArray {
-                            var groupName: String = ""
-                            var description: String = ""
-                            var emails: [String] = []
-                            for assignee in assignees {
-                                groupName += assignee.valueForKey("name") as! String + " "
-                                description += assignee.valueForKey("email") as! String + " "
-                                emails += [assignee.valueForKey("email") as! String]
+                    self.objects = objects
+                    if objects.count == 0 {
+                        self.assigneeList = []
+                    } else {
+                        for object in objects {
+                            if let assignees = object.valueForKey("taskAssignedTo") as? NSArray {
+                                var groupName: String = ""
+                                var description: String = ""
+                                for assignee in assignees {
+                                    groupName += assignee.valueForKey("name") as! String + " "
+                                    description += assignee.valueForKey("email") as! String + " "
+                                }
+                                list += [(groupName: groupName, description: description, assignees: assignees)]
                             }
-                            self.assigneeList += [(groupName: groupName, description: description, emails: emails)]
                         }
+                        list = parseHelper.removeDuplicateAssignees(list)
+                        self.assigneeList = list
                     }
                 }
-                self.assigneeList = self.removeDuplicateAssignees(self.assigneeList)
-                self.refreshView()
             } else {
                 println(error)
             }
         }
     }
-
-    func getUserCreatedTasksQuery() -> PFQuery {
-        var query = PFQuery(className: "Task")
-        let userDetails = Authentication().getUserDetails()
-        query.whereKey("taskCreatorEmail", equalTo: userDetails.email)
-        query.orderByAscending("updatedAt")
-        
-        return query
-    }
     
-    func removeDuplicateAssignees(array: [(groupName: String, description: String, emails: [String])]) -> [(groupName: String, description: String, emails: [String])] {
-        var encountered = Set<String>()
-        var result: [(groupName: String, description: String, emails: [String])] = []
-        for value in array {
-            if !encountered.contains(value.description) {
-                // Add value to the set.
-                encountered.insert(value.description)
-                // ... Append the value.
-                result.append(value)
+    func refreshLocalDataStoreFromServer() {
+        println("Refreshing local datastore from server")   
+        let parseHelper = ParseHelper()
+        parseHelper.getUserRelatedTasksQuery().findObjectsInBackgroundWithBlock {
+            (parseObjects: [AnyObject]?, error: NSError?) -> Void in
+            if error == nil {
+                println("Found \(parseObjects!.count) parseObjects from server")
+                // unpin all existing objects
+                
+                    PFObject.unpinAllInBackground(self.objects, block: { (succeeded: Bool, error: NSError?) -> Void in
+                        if error == nil {
+                            // Pin all new objects
+                            PFObject.pinAllInBackground(parseObjects, block: { (succeeded: Bool, error: NSError?) -> Void in
+                                if error == nil {
+                                    // Once we've updated the local datastore, update the view with local datastore
+                                    self.shouldUpdateFromServer = false
+                                    self.getAssigneesFromLocalDatastore()
+                                    
+                                    // Refresh Push channel subscriptions
+                                    var channels: [String] = []
+                                    if let parseObjects = parseObjects {
+                                        for parseObject in parseObjects {
+                                            if let taskID = parseObject.valueForKey("taskID") as? String {
+                                                channels.append(taskID)
+                                            }
+                                        }
+                                    }
+                                    parseHelper.subscribeToPushChannels(channels)
+                                } else {
+                                    println("Failed to pin objects")
+                                }
+                            })
+                        } else {
+                            println("Couldn't get objects")
+                        }
+                    })
             }
         }
-        return result
     }
 
 }

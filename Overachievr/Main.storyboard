@@ -77,18 +77,19 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Create" id="hdT-UY-CrR">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="jKE-gY-XQv">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="jKE-gY-XQv">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="saveButtonPressed:" destination="SCb-fj-ETQ" id="Eh3-It-lIl"/>
-                                <segue destination="zct-g2-Kzv" kind="unwind" identifier="unwindToTaskGroupsSegue" unwindAction="unwindToTaskGroups:" id="mSE-sL-aLP"/>
+                                <action selector="saveButtonTapped:" destination="SCb-fj-ETQ" id="wXl-Ng-Ilm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="assigneeCell" destination="9OQ-fW-Xhl" id="Sk2-4V-dgk"/>
+                        <outlet property="saveButton" destination="jKE-gY-XQv" id="Oc5-a8-B7G"/>
                         <outlet property="taskDetailsTextView" destination="6mC-a9-3oO" id="JcS-B2-DKr"/>
                         <segue destination="PVp-xv-460" kind="show" identifier="showContacts" id="KUH-1i-Gkq"/>
+                        <segue destination="zct-g2-Kzv" kind="unwind" identifier="unwindToTaskGroupsSegue" unwindAction="unwindToTaskGroups:" id="6aW-IG-AZ5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6XH-xc-jXy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -383,8 +384,12 @@
                             <outlet property="delegate" destination="cTI-IU-RTA" id="ft9-Sq-oX1"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="PIZ-jb-4qE" kind="unwind" identifier="returnToTaskGroupsSegue" unwindAction="unwindToTaskGroups:" id="apo-Mc-zsZ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9oZ-w3-yca" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="PIZ-jb-4qE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4172" y="131"/>
         </scene>

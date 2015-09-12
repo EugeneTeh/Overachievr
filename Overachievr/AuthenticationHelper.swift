@@ -80,9 +80,10 @@ class Authentication {
     
     func goToLoginVC (shouldAnimate: Bool) {
         let logInController = LoginVC()
-        logInController.fields = (PFLogInFields.UsernameAndPassword
+        logInController.fields = (
+            PFLogInFields.UsernameAndPassword
             | PFLogInFields.LogInButton
-            | PFLogInFields.SignUpButton
+            //| PFLogInFields.SignUpButton
             | PFLogInFields.Facebook
             //| PFLogInFields.Twitter
             | PFLogInFields.PasswordForgotten)

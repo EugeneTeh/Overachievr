@@ -52,7 +52,7 @@ class LoginVC: PFLogInViewController, PFLogInViewControllerDelegate {
     }
     
     func logInViewController(logInController: PFLogInViewController, didLogInUser user: PFUser) {
-        
+        ParseHelper().associateDeviceToUser()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 

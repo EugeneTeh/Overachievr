@@ -8,13 +8,11 @@
 
 import UIKit
 import Parse
-import RealmSwift
-import Alamofire
-
 
 class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelectionDelegate  {
     
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var assigneeCell: UITableViewCell!
     @IBOutlet weak var taskDetailsTextView: UITextView!
     
@@ -29,11 +27,22 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
             textViewDidChange(taskDetailsTextView)
         }
     }
-    var assigneeSelected: Bool = false 
+    var assigneeSelected: Bool = false {
+        didSet {
+            let assigneeDetails = getAssigneeDetails()
+            let userDetails = Authentication().getUserDetails()
+            if assigneeSelected && assigneeDetails.email != userDetails.email {
+                saveButton.title = "Send"
+            } else {
+                saveButton.title = "Save"
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        saveButton.enabled = false
         taskDetailsTextView.delegate = self
         
         if assigneeSelected == false {
@@ -49,8 +58,8 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
         //remove trailing unused cells
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
 
-            self.taskDetailsTextView.text = placeholderText
-            self.taskDetailsTextView.textColor = UIColor.lightGrayColor()
+        self.taskDetailsTextView.text = placeholderText
+        self.taskDetailsTextView.textColor = UIColor.lightGrayColor()
 
 
     }
@@ -98,6 +107,36 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
 
 // MARK: - Actions
     
+    @IBAction func saveButtonTapped(sender: AnyObject) {
+        let task = PFObject(className: "Task")
+        let taskGroup = PFObject(className: "TaskGroup")
+        let userDetails = Authentication().getUserDetails()
+        let assignees = getAssigneeDetails()
+        
+        task["taskID"] = TaskHelper().generateTaskID
+        task["taskDetails"] = taskDetailsTextView.text
+        task["taskCreatorName"] = userDetails.name
+        task["taskCreatorEmail"] = userDetails.email
+        task["taskAssignedSearch"] = [assignees.email]
+        task["taskStatus"] = TaskStatus.New.rawValue
+        
+        if assigneeCell.detailTextLabel?.text != userDetails.email {
+            task["taskAssignedDateTime"] = NSDate()
+        }
+        
+        task["taskAssignedTo"] = [["name": assignees.name, "email": assignees.email]]
+        task.saveEventually()
+        task.pinInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if success {
+                if userDetails.email != assignees.email {
+                    ParseHelper().sendPushToTaskAssignee(assignees.email, message: "\(userDetails.name) has assigned you \"\(self.taskDetailsTextView.text)\"")
+                }
+                self.performSegueWithIdentifier("unwindToTaskGroupsSegue", sender: nil)
+            }
+        }
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
@@ -108,9 +147,9 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
     }
     
     func didSelectAssignee(assigneeName: String, assigneeEmail: String) {
-        assigneeSelected = true
         assigneeCell.textLabel?.text = assigneeName
         assigneeCell.detailTextLabel?.text = assigneeEmail
+        assigneeSelected = true
     }
     
     func getAssigneeDetails() -> (name: String, email: String) {
@@ -125,62 +164,24 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
         
         return (name, email)
     }
-    
-    func doesTaskGroupExistQuery(groupID: String) -> PFQuery {
-        var query = PFQuery(className: "TaskGroup")
-        query.whereKey("groupID", equalTo: groupID)
-        
-        return query
-    }
+
     
 // MARK: - Display Controls
     
-    // Disable save button until text is entered in task title
-    /*
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let length = count(textField.text) - range.length + count(string)
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        let length = count(textView.text) - range.length + count(text)
         if length > 0 {
-            
+            saveButton.enabled = true
         } else {
-            
+            saveButton.enabled = false
         }
         return true
     }
-    */
     
     
 // MARK: - Navigation
     
     @IBAction func unwindToCreateTask(segue:UIStoryboardSegue) {
-        
-    }
-    
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "unwindToTaskGroupsSegue" {
-            
-            let task = PFObject(className: "Task")
-            let taskGroup = PFObject(className: "TaskGroup")
-            let userDetails = Authentication().getUserDetails()
-            let assignees = getAssigneeDetails()
-            
-            
-            task["taskID"] = TaskHelper().generateTaskID
-            task["taskDetails"] = taskDetailsTextView.text
-            task["taskCreatorName"] = userDetails.name
-            task["taskCreatorEmail"] = userDetails.email
-            task["taskStatus"] = TaskStatus.New.rawValue
-            
-            if assigneeCell.detailTextLabel?.text != userDetails.email {
-                task["taskAssignedDateTime"] = NSDate()
-            }
-            
-            task["taskAssignedTo"] = [["name": assignees.name, "email": assignees.email]]
-            
-            task.pinInBackground()
-            task.saveEventually()
-
-        }
         
     }
 }
