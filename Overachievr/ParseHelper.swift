@@ -24,7 +24,7 @@ class ParseHelper {
         var query = PFQuery.orQueryWithSubqueries([
             createdBySelf,
             assignedToSelf])
-        query.orderByAscending("updatedAt")
+        query.orderByDescending("updatedAt")
         
         return query
     }
@@ -33,7 +33,7 @@ class ParseHelper {
         var query = PFQuery(className: "Task")
         let userDetails = Authentication().getUserDetails()
         query.whereKey("taskAssignedTo", containsAllObjectsInArray: assignees as [AnyObject])
-        query.orderByAscending("updatedAt")
+        query.orderByDescending("updatedAt")
         
         return query
     }

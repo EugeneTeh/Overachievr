@@ -22,6 +22,7 @@
 		A73FB8531B9E8A0800815B76 /* TaskGroupsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB8521B9E8A0800815B76 /* TaskGroupsTVC.swift */; };
 		A73FB8551B9E8A8900815B76 /* TGFillerPanelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB8541B9E8A8900815B76 /* TGFillerPanelExt.swift */; };
 		A73FB8571B9EB79600815B76 /* ParseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB8561B9EB79600815B76 /* ParseHelper.swift */; };
+		A768EB941BA5D2E7009C82AA /* UIColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A768EB931BA5D2E7009C82AA /* UIColorHelper.swift */; };
 		A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */; };
 		A77135E41B807DB60065A24E /* OverachievrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77135E31B807DB60065A24E /* OverachievrTests.swift */; };
 		A77135EE1B807E110065A24E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A77135ED1B807E110065A24E /* Main.storyboard */; };
@@ -35,7 +36,6 @@
 		A77136141B807ED50065A24E /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A771360E1B807ED50065A24E /* AuthenticationHelper.swift */; };
 		A77136151B807ED50065A24E /* TaskHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A771360F1B807ED50065A24E /* TaskHelper.swift */; };
 		A77136161B807ED50065A24E /* DateTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136101B807ED50065A24E /* DateTimeHelper.swift */; };
-		A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77136111B807ED50065A24E /* CustomCellHelper.swift */; };
 		A771361A1B807EEB0065A24E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77136181B807EEB0065A24E /* Images.xcassets */; };
 		A771361B1B807EEB0065A24E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A77136191B807EEB0065A24E /* LaunchScreen.xib */; };
 		B1BF7853C5B447DB52A337D2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E36D7D430851A04B84982514 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -95,6 +95,7 @@
 		A73FB8521B9E8A0800815B76 /* TaskGroupsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskGroupsTVC.swift; sourceTree = "<group>"; };
 		A73FB8541B9E8A8900815B76 /* TGFillerPanelExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGFillerPanelExt.swift; sourceTree = "<group>"; };
 		A73FB8561B9EB79600815B76 /* ParseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseHelper.swift; sourceTree = "<group>"; };
+		A768EB931BA5D2E7009C82AA /* UIColorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorHelper.swift; sourceTree = "<group>"; };
 		A77135C51B807DB60065A24E /* Overachievr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Overachievr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A77135CD1B807DB60065A24E /* Overachievr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Overachievr.xcdatamodel; sourceTree = "<group>"; };
 		A77135DD1B807DB60065A24E /* OverachievrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OverachievrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,7 +114,6 @@
 		A771360E1B807ED50065A24E /* AuthenticationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		A771360F1B807ED50065A24E /* TaskHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskHelper.swift; sourceTree = "<group>"; };
 		A77136101B807ED50065A24E /* DateTimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeHelper.swift; sourceTree = "<group>"; };
-		A77136111B807ED50065A24E /* CustomCellHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCellHelper.swift; sourceTree = "<group>"; };
 		A77136181B807EEB0065A24E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A77136191B807EEB0065A24E /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		B724DF12F53EE3459E67EF35 /* Pods-Overachievr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Overachievr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Overachievr/Pods-Overachievr.debug.xcconfig"; sourceTree = "<group>"; };
@@ -214,6 +214,16 @@
 			name = Authentication;
 			sourceTree = "<group>";
 		};
+		A768EB951BA5D2EC009C82AA /* Miscellaneous */ = {
+			isa = PBXGroup;
+			children = (
+				A768EB931BA5D2E7009C82AA /* UIColorHelper.swift */,
+				A77136101B807ED50065A24E /* DateTimeHelper.swift */,
+				A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */,
+			);
+			name = Miscellaneous;
+			sourceTree = "<group>";
+		};
 		A77135BC1B807DB60065A24E = {
 			isa = PBXGroup;
 			children = (
@@ -309,13 +319,11 @@
 		A771360B1B807EC50065A24E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				A768EB951BA5D2EC009C82AA /* Miscellaneous */,
 				A771360D1B807ED50065A24E /* AddressBookHelper.swift */,
 				A771360E1B807ED50065A24E /* AuthenticationHelper.swift */,
 				A771360F1B807ED50065A24E /* TaskHelper.swift */,
-				A77136101B807ED50065A24E /* DateTimeHelper.swift */,
-				A77136111B807ED50065A24E /* CustomCellHelper.swift */,
 				A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */,
-				A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */,
 				A73FB8561B9EB79600815B76 /* ParseHelper.swift */,
 			);
 			name = Helpers;
@@ -538,9 +546,9 @@
 				A77135CE1B807DB60065A24E /* Overachievr.xcdatamodeld in Sources */,
 				A706F4FC1B88F27B00ADA085 /* CreateTaskPanelVC.swift in Sources */,
 				A77135F41B807E2E0065A24E /* SelectContactsTVC.swift in Sources */,
+				A768EB941BA5D2E7009C82AA /* UIColorHelper.swift in Sources */,
 				A73FB84F1B98316F00815B76 /* SignUpVC.swift in Sources */,
 				A706F4D91B829C8D00ADA085 /* Users.swift in Sources */,
-				A77136171B807ED50065A24E /* CustomCellHelper.swift in Sources */,
 				A706F4E01B854DEB00ADA085 /* NotificationHelper.swift in Sources */,
 				A77135F51B807E2E0065A24E /* CreateTaskVC.swift in Sources */,
 				A73FB8531B9E8A0800815B76 /* TaskGroupsTVC.swift in Sources */,

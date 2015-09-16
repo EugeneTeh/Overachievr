@@ -45,6 +45,9 @@ class TaskGroupsTVC: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: Selector("refreshView"), forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl!)
+        
+        // clear title of back bar button
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -137,7 +140,7 @@ class TaskGroupsTVC: UITableViewController {
             (objects: [AnyObject]?, error: NSError?) -> Void in
             if error == nil {
                 var list: [(groupName: String, description: String, assignees: NSArray)] = []
-                
+                // get unique assignees to group them
                 if let objects = objects {
                     self.objects = objects
                     if objects.count == 0 {

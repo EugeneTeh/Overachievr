@@ -20,6 +20,7 @@ enum TaskStatus: String {
     case Completed = "Completed"
     case Verified = "Verified"
     case Archived = "Archived"
+    case Redo = "Redo"
 }
 
 class TaskHelper {
