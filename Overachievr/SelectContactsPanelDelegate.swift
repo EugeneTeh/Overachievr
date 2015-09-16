@@ -28,17 +28,17 @@ extension MainContainerVC: SelectContactsPanelDelegate  {
         if shouldExpand {
             setupSelectContactsPanelContainer()
             shiftMainContainer(targetPosition: selectContactsPanelOffset)
-            println("set Assignee Button tapped")
+            print("set Assignee Button tapped")
         } else {
             let position = CGRectGetWidth(self.view.frame)
             shiftMainContainer(targetPosition: position) { finished in
-                self.selectContactsPanelCV.subviews.map({ $0.removeFromSuperview() })
+//                self.selectContactsPanelCV.subviews.map({ $0.removeFromSuperview() })
                 self.selectContactsPanelCV.removeFromSuperview()
             }
         }
     }
     
-    func shiftMainContainer(#targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
+    func shiftMainContainer(targetPosition targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.frame.origin.x = targetPosition
             }, completion: completion)

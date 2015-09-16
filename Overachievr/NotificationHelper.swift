@@ -16,7 +16,7 @@ class Notification {
 
     func clearOldNotifications() {
         let oldNotifications = app.scheduledLocalNotifications
-        if oldNotifications.count > 0 {
+        if oldNotifications!.count > 0 {
             app.cancelAllLocalNotifications()
         }
     }

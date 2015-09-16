@@ -12,8 +12,8 @@ import RealmSwift
 
 class SelectContactsTVC: UITableViewController {
     
-    let contactList = Realm().objects(Contacts).sorted("contactName", ascending: true)
-    let realm = Realm()
+    let contactList = try! Realm().objects(Contacts).sorted("contactName", ascending: true)
+    let realm = try! Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +53,7 @@ class SelectContactsTVC: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("contactCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("contactCell", forIndexPath: indexPath) 
         let contact = contactList[indexPath.row]
         
         cell.textLabel!.text = contact.contactName
@@ -107,7 +107,7 @@ class SelectContactsTVC: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "unwindToCreateTask" {
-            let contact = contactList[self.tableView.indexPathForSelectedRow()!.row]
+            let contact = contactList[self.tableView.indexPathForSelectedRow!.row]
             
             let destinationVC = segue.destinationViewController as! CreateTaskVC
             

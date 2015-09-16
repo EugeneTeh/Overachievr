@@ -31,21 +31,21 @@ class SettingsTabTVC: UITableViewController {
     
     // Not working yet
     @IBAction func handleLeftEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
-        println("Left edge touched")
+        print("Left edge touched")
         let translation: CGPoint = gesture.translationInView(self.view)
         let width: CGFloat = CGRectGetWidth(self.view.frame) - self.mainContainerLeftPanelOffset
-        let percentage = max(gesture.translationInView(self.view).x, 0) / width
+//        let percentage = max(gesture.translationInView(self.view).x, 0) / width
         
             switch gesture.state {
             case UIGestureRecognizerState.Began:
-                println("Begin pan")
+                print("Begin pan")
                 
             case UIGestureRecognizerState.Changed:
-                println("Update frame")
+                print("Update frame")
                 
                 leftMenuPanelCV.frame = CGRectMake(translation.x/3, 0, width, self.view.frame.height)
             default:
-                println("Pan end")
+                print("Pan end")
                 
             }
     }
@@ -65,7 +65,7 @@ class SettingsTabTVC: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("SettingsCell") as? UITableViewCell
+        let cell:UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("SettingsCell")
         
         cell?.textLabel?.text = menuItems[indexPath.row]
         

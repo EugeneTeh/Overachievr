@@ -92,7 +92,7 @@ class CreateTaskPanelVC: UIViewController {
         }
     }
     
-    func shiftCreateTaskPanel(#targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
+    func shiftCreateTaskPanel(targetPosition targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.createTaskPanelCV.frame.origin.y = targetPosition
         }, completion: completion)

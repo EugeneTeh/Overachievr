@@ -40,7 +40,6 @@ class LoginVC: PFLogInViewController, PFLogInViewControllerDelegate {
     // MARK: - Parse Login
     
     func logInViewController(logInController: PFLogInViewController, shouldBeginLogInWithUsername username: String, password: String) -> Bool {
-        var alert = UIAlertController()
         
         if !username.isEmpty {
             return true

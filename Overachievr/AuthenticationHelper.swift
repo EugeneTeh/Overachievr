@@ -10,8 +10,8 @@ import Foundation
 import FBSDKCoreKit
 import FBSDKLoginKit
 import RealmSwift
-import Alamofire
-import SwiftyJSON
+//import Alamofire
+//import SwiftyJSON
 import Parse
 import ParseUI
 
@@ -20,7 +20,7 @@ enum LoginSource: String {
 }
 
 class Authentication {
-    let realm = Realm()
+    let realm = try! Realm()
     //let memoryRealm = Realm(configuration: Realm.Configuration(inMemoryIdentifier: "memoryRealm"))
     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     let appDel = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -35,7 +35,7 @@ class Authentication {
     }
     
     func isLoggedIn() -> Bool {
-        println(getLoginSource())
+        print(getLoginSource())
         if getLoginSource() != "" {
             return true
         } else {
@@ -54,7 +54,6 @@ class Authentication {
     
     func logout() {
         PFUser.logOut()
-        var currentUser = PFUser.currentUser()
         goToLoginVC(true)
     }
     
@@ -80,23 +79,22 @@ class Authentication {
     
     func goToLoginVC (shouldAnimate: Bool) {
         let logInController = LoginVC()
-        logInController.fields = (
-            PFLogInFields.UsernameAndPassword
-            | PFLogInFields.LogInButton
-            //| PFLogInFields.SignUpButton
-            | PFLogInFields.Facebook
-            //| PFLogInFields.Twitter
-            | PFLogInFields.PasswordForgotten)
+        logInController.fields = ([
+            PFLogInFields.UsernameAndPassword,
+            //PFLogInFields.LogInButton,
+            PFLogInFields.Facebook,
+            //| PFLogInFields.Twitter,
+            PFLogInFields.PasswordForgotten])
         self.appDel.window?.rootViewController!.presentViewController(logInController, animated: shouldAnimate, completion: nil)
     }
     
     func goToInitialVC () {
-        self.appDel.window?.rootViewController = self.mainStoryboard.instantiateInitialViewController() as? UIViewController
+        self.appDel.window?.rootViewController = self.mainStoryboard.instantiateInitialViewController()
     }
     
     func setDeviceToken(token: String) {
         if let user = realm.objects(Users).first {
-            realm.write {
+            try! realm.write {
                 user.userAPNSToken = token
                 //self.realm.add(user)
             }
@@ -108,12 +106,12 @@ class Authentication {
     }
     
     func requestUserNotificationPermission(application: UIApplication) {
-        var settings = UIUserNotificationSettings(forTypes: .Badge | .Alert | .Sound, categories: nil)
+        let settings = UIUserNotificationSettings(forTypes: [.Badge, .Alert, .Sound], categories: nil)
         application.registerUserNotificationSettings(settings)
     }
     
     func isFirstTimeUser(email: String) -> Bool {
-        var emailCount = realm.objects(Users).filter("userEmail = '\(email)'").count
+        let emailCount = realm.objects(Users).filter("userEmail = '\(email)'").count
 
         if emailCount > 0 { // user exists
             return false
@@ -121,66 +119,66 @@ class Authentication {
             let userObject = Users()
             userObject.userEmail = email
             userObject.userRegisteredDateTime = NSDate().formattedDateTimeToString("yyyy-MM-dd'T'HH:mm:ssz")
-            realm.write {self.realm.add(userObject)}
+            try! realm.write {self.realm.add(userObject)}
             return true
         }
     }
 }
 
-class ServerAuth: Authentication {
-    let baseURL = "http://52.25.48.116:9000/api/"
-    var isRegisteredOnServer: (status: Bool,email: String?) = (false, nil) {
-        didSet {
-            if let email = isRegisteredOnServer.email {
-                if let user = self.realm.objects(Users).filter("userFBEmail = '\(email)'").first {
-                    if isRegisteredOnServer.status {
-                        putServerUserInfo("users/update", object: user.toDictionary() as! [String : AnyObject])
-                    } else {
-                        postServerUserInfo("users/create", object: user.toDictionary() as! [String : AnyObject])
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    
-    func postServerUserInfo(path: String, object: [String: AnyObject]) {
-        Alamofire.request(Alamofire.Method.POST, "\(self.baseURL)\(path)", parameters: object, encoding: Alamofire.ParameterEncoding.JSON)
-    }
-    
-    func putServerUserInfo(path: String, object: [String: AnyObject]) {
-        Alamofire.request(Alamofire.Method.PUT, "\(self.baseURL)\(path)", parameters: object, encoding: Alamofire.ParameterEncoding.JSON)
-    }
-    
-    func setServerUserInfo(email: String) {
-        if let user = self.realm.objects(Users).filter("userEmail = '\(email)'").first {
-            self.isRegisteredOnServer(user.userEmail)
-        }
-    }
-    
-    func isRegisteredOnServer(userEmail: String) {
-        
-        Alamofire.request(.GET, "http://52.25.48.116:9000/api/users/\(userEmail)").responseJSON { _, _, data, error in
-            if let anError = error {
-                println("error calling GET on /posts/1")
-                println(error)
-            } else if let data: AnyObject = data {
-                let user = JSON(data)
-                if let responseEmail = user["userEmail"].string {
-                    if responseEmail == userEmail {
-                        self.isRegisteredOnServer = (true, responseEmail)
-                    } else {
-                        println("Non-matching response")
-                    }
-                } else {
-                    self.isRegisteredOnServer = (false,nil)
-            }
-
-        }
-    }
-    }
-}
+//class ServerAuth: Authentication {
+//    let baseURL = "http://52.25.48.116:9000/api/"
+//    var isRegisteredOnServer: (status: Bool,email: String?) = (false, nil) {
+//        didSet {
+//            if let email = isRegisteredOnServer.email {
+//                if let user = self.realm.objects(Users).filter("userFBEmail = '\(email)'").first {
+//                    if isRegisteredOnServer.status {
+//                        putServerUserInfo("users/update", object: user.toDictionary() as! [String : AnyObject])
+//                    } else {
+//                        postServerUserInfo("users/create", object: user.toDictionary() as! [String : AnyObject])
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    
+//    
+//    
+//    func postServerUserInfo(path: String, object: [String: AnyObject]) {
+//        Alamofire.request(Alamofire.Method.POST, "\(self.baseURL)\(path)", parameters: object, encoding: Alamofire.ParameterEncoding.JSON)
+//    }
+//    
+//    func putServerUserInfo(path: String, object: [String: AnyObject]) {
+//        Alamofire.request(Alamofire.Method.PUT, "\(self.baseURL)\(path)", parameters: object, encoding: Alamofire.ParameterEncoding.JSON)
+//    }
+//    
+//    func setServerUserInfo(email: String) {
+//        if let user = self.realm.objects(Users).filter("userEmail = '\(email)'").first {
+//            self.isRegisteredOnServer(user.userEmail)
+//        }
+//    }
+//    
+//    func isRegisteredOnServer(userEmail: String) {
+//        
+//        Alamofire.request(.GET, "http://52.25.48.116:9000/api/users/\(userEmail)").responseJSON { _, _, data, error in
+//            if let anError = error {
+//                println("error calling GET on /posts/1")
+//                println(error)
+//            } else if let data: AnyObject = data {
+//                let user = JSON(data)
+//                if let responseEmail = user["userEmail"].string {
+//                    if responseEmail == userEmail {
+//                        self.isRegisteredOnServer = (true, responseEmail)
+//                    } else {
+//                        println("Non-matching response")
+//                    }
+//                } else {
+//                    self.isRegisteredOnServer = (false,nil)
+//            }
+//
+//        }
+//    }
+//    }
+//}
 
     // MARK: - Facebook Login Methods
 
@@ -194,10 +192,11 @@ class FacebookAuth: Authentication {
         }
     }
     
+    /*
     func loginToFacebook () {
         let fbReadPermissions = ["public_profile", "email", "user_friends"]
         
-        FBSDKLoginManager().logInWithReadPermissions(fbReadPermissions, handler: { (result, error) -> Void in
+        FBSDKLoginManager().logInWithReadPermissions(fromViewController: fbReadPermissions, handler: { (result, error) -> Void in
             if let fbError = error {
                 //handle error
             } else if (result.isCancelled) {
@@ -209,6 +208,7 @@ class FacebookAuth: Authentication {
             }
         })
     }
+*/
     
     func setFBUserInfo() {
         //println("Setting FB user info")
@@ -216,10 +216,10 @@ class FacebookAuth: Authentication {
             
             if let fbError = error {
                 //handle error
-                println(fbError)
+                print(fbError)
             } else {
                 let fbRequestResults = result as! NSDictionary
-                var user = PFUser.currentUser()
+                let user = PFUser.currentUser()
                 
                 user?.setObject(fbRequestResults["email"]!, forKey: "email")
                 user?.setObject(fbRequestResults["email"]!, forKey: "username")

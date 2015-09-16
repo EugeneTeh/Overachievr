@@ -38,7 +38,8 @@ class TaskGroupsTVC: UITableViewController {
             }
         }
     }
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,10 +49,10 @@ class TaskGroupsTVC: UITableViewController {
         
         // clear title of back bar button
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
@@ -65,7 +66,7 @@ class TaskGroupsTVC: UITableViewController {
         //remove trailing unused cells
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -93,29 +94,29 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     @IBAction func unwindToTaskGroups(segue:UIStoryboardSegue) {
-
+        
     }
     
     // MARK: - Segue
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "selectedTaskGroupSegue" {
-            let group = assigneeList[self.tableView.indexPathForSelectedRow()!.row] as (groupName: String, description: String, assignees: NSArray)
+            let group = assigneeList[(self.tableView.indexPathForSelectedRow?.row)!]
             let destinationVC = segue.destinationViewController as! CollaboratorTVC
             
             destinationVC.didSelectGroup(group)
         }
         
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
@@ -123,7 +124,7 @@ class TaskGroupsTVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TaskGroupsCell") as! UITableViewCell
+        let cell: UITableViewCell! = tableView.dequeueReusableCellWithIdentifier("TaskGroupsCell")
         
         if assigneeList.count > 0 {
             cell.textLabel?.text = assigneeList[indexPath.row].groupName
@@ -133,11 +134,12 @@ class TaskGroupsTVC: UITableViewController {
         return cell
     }
     
+    
     func getAssigneesFromLocalDatastore() {
-        println("Getting assignees from local datastore")
+        print("Getting assignees from local datastore")
         let parseHelper = ParseHelper()
         parseHelper.getUserRelatedTasksQuery().fromLocalDatastore().findObjectsInBackgroundWithBlock {
-            (objects: [AnyObject]?, error: NSError?) -> Void in
+            (objects: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
                 var list: [(groupName: String, description: String, assignees: NSArray)] = []
                 // get unique assignees to group them
@@ -162,45 +164,46 @@ class TaskGroupsTVC: UITableViewController {
                     }
                 }
             } else {
-                println(error)
+                print(error)
             }
+            
         }
     }
     
     func refreshLocalDataStoreFromServer() {
-        println("Refreshing local datastore from server")   
+        print("Refreshing local datastore from server")
         let parseHelper = ParseHelper()
         parseHelper.getUserRelatedTasksQuery().findObjectsInBackgroundWithBlock {
-            (parseObjects: [AnyObject]?, error: NSError?) -> Void in
+            (parseObjects: [PFObject]?, error: NSError?) -> Void in
             if error == nil {
-                println("Found \(parseObjects!.count) parseObjects from server")
+                print("Found \(parseObjects!.count) parseObjects from server")
                 // unpin all existing objects
                 
-                    PFObject.unpinAllInBackground(self.objects, block: { (succeeded: Bool, error: NSError?) -> Void in
-                        if error == nil {
-                            // Pin all new objects
-                            PFObject.pinAllInBackground(parseObjects, block: { (succeeded: Bool, error: NSError?) -> Void in
-                                if error == nil {
-                                    // Once we've updated the local datastore, update the view with local datastore
-                                    self.shouldUpdateFromServer = false
-                                    self.getAssigneesFromLocalDatastore()
-                                    
-                                    // Refresh Push channel subscriptions
-                                    var channels: [String] = []
-                                    if let parseObjects = parseObjects {
-                                        for parseObject in parseObjects {
-                                            if let taskID = parseObject.valueForKey("taskID") as? String {
-                                                channels.append(taskID)
-                                            }
+                PFObject.unpinAllInBackground(self.objects, block: { (succeeded: Bool, error: NSError?) -> Void in
+                    if error == nil {
+                        // Pin all new objects
+                        PFObject.pinAllInBackground(parseObjects, block: { (succeeded: Bool, error: NSError?) -> Void in
+                            if error == nil {
+                                // Once we've updated the local datastore, update the view with local datastore
+                                self.shouldUpdateFromServer = false
+                                self.getAssigneesFromLocalDatastore()
+                                
+                                // Refresh Push channel subscriptions
+                                var channels: [String] = []
+                                if let parseObjects = parseObjects {
+                                    for parseObject in parseObjects {
+                                        if let taskID = parseObject.valueForKey("taskID") as? String {
+                                            channels.append(taskID)
                                         }
                                     }
-                                    parseHelper.subscribeToPushChannels(channels)
-                                } else {
-                                    println("Failed to pin objects")
                                 }
+                                parseHelper.subscribeToPushChannels(channels)
+                            } else {
+                                print("Failed to pin objects")
+                            }
                             })
                         } else {
-                            println("Couldn't get objects")
+                            print("Couldn't get objects")
                         }
                     })
             }

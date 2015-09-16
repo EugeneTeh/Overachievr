@@ -26,7 +26,7 @@ class MainCenterVC: UIViewController {
         
         let vibrancyEffect = UIVibrancyEffect(forBlurEffect: blurEffect)
         let vibrancyView = UIVisualEffectView(effect: vibrancyEffect)
-        vibrancyView.setTranslatesAutoresizingMaskIntoConstraints(false)
+//        vibrancyView.setTranslatesAutoresizingMaskIntoConstraints(false)
         
         //vibrancyView.contentView.addSubview(<#view: UIView#>)
         blurPanelView.contentView.addSubview(vibrancyView)

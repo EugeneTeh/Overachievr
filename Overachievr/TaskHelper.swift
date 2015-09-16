@@ -9,8 +9,8 @@
 import Foundation
 import FBSDKCoreKit
 import RealmSwift
-import Alamofire
-import SwiftyJSON
+//import Alamofire
+//import SwiftyJSON
 
 
 enum TaskStatus: String {
@@ -38,35 +38,35 @@ class TaskHelper {
         return ("TG\(taskGroupIDPart1)-\(taskGroupIDPart2)")
     }
         
-    func getAssignedTask(taskID: String) {
-        Alamofire.request(.GET, "http://52.25.48.116:9000/api/tasks/\(taskID)").responseJSON { _, _, data, error in
-            if let anError = error {
-                println("error calling GET on /posts/1")
-                println(error)
-            } else if let tasks = data as? NSDictionary {
-                let realm = Realm()
-                realm.write {
-                    realm.create(Tasks.self, value: tasks, update: true)
-                }
-                let taskObject = realm.objects(Tasks).filter("taskID = '\(taskID)'")
-                if let taskCreator = taskObject[0].valueForKey("taskCreatorName") as? String {
-                    let app = UIApplication.sharedApplication()
-                    
-                    var notification = UILocalNotification()
-                    notification.alertBody = "\(taskCreator) assigned you a task"
-                    notification.applicationIconBadgeNumber++
-                    notification.soundName = UILocalNotificationDefaultSoundName 
-                    notification.alertTitle = "Test task"
-                    notification.fireDate = NSDate()
-                    
-                    UIApplication.sharedApplication().presentLocalNotificationNow(notification)
-                }
-                
-                
-
-            }
-        }
-    }
+//    func getAssignedTask(taskID: String) {
+//        Alamofire.request(.GET, "http://52.25.48.116:9000/api/tasks/\(taskID)").responseJSON { _, _, data, error in
+//            if let anError = error {
+//                println("error calling GET on /posts/1")
+//                println(error)
+//            } else if let tasks = data as? NSDictionary {
+//                let realm = Realm()
+//                realm.write {
+//                    realm.create(Tasks.self, value: tasks, update: true)
+//                }
+//                let taskObject = realm.objects(Tasks).filter("taskID = '\(taskID)'")
+//                if let taskCreator = taskObject[0].valueForKey("taskCreatorName") as? String {
+//                    let app = UIApplication.sharedApplication()
+//                    
+//                    var notification = UILocalNotification()
+//                    notification.alertBody = "\(taskCreator) assigned you a task"
+//                    notification.applicationIconBadgeNumber++
+//                    notification.soundName = UILocalNotificationDefaultSoundName 
+//                    notification.alertTitle = "Test task"
+//                    notification.fireDate = NSDate()
+//                    
+//                    UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+//                }
+//                
+//                
+//
+//            }
+//        }
+//    }
 }
 
 extension Object {
@@ -74,24 +74,23 @@ extension Object {
         let properties = self.objectSchema.properties.map { $0.name }
         let dictionary = self.dictionaryWithValuesForKeys(properties)
         
-        var mutabledic = NSMutableDictionary()
+        let mutabledic = NSMutableDictionary()
         mutabledic.setValuesForKeysWithDictionary(dictionary)
         
         for prop in self.objectSchema.properties as [Property]! {
             // find lists
-            if let objectClassName = prop.objectClassName  {
-                if let nestedObject = self[prop.name] as? Object {
-                    mutabledic.setValue(nestedObject.toDictionary(), forKey: prop.name)
-                } else if let nestedListObject = self[prop.name] as? ListBase {
-                    var objects = [AnyObject]()
-                    for index in 0..<nestedListObject._rlmArray.count  {
-                        if let object = nestedListObject._rlmArray[index] as? Object {
-                            objects.append(object.toDictionary())
-                        }
+            if let nestedObject = self[prop.name] as? Object {
+                mutabledic.setValue(nestedObject.toDictionary(), forKey: prop.name)
+            } else if let nestedListObject = self[prop.name] as? ListBase {
+                var objects = [AnyObject]()
+                for index in 0..<nestedListObject._rlmArray.count  {
+                    if let object = nestedListObject._rlmArray[index] as? Object {
+                        objects.append(object.toDictionary())
                     }
-                    mutabledic.setObject(objects, forKey: prop.name)
                 }
+                mutabledic.setObject(objects, forKey: prop.name)
             }
+
         }
         return mutabledic
     }

@@ -109,22 +109,22 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
     
     @IBAction func saveButtonTapped(sender: AnyObject) {
         let task = PFObject(className: "Task")
-        let taskGroup = PFObject(className: "TaskGroup")
         let userDetails = Authentication().getUserDetails()
         let assignees = getAssigneeDetails()
         
-        task["taskID"] = TaskHelper().generateTaskID
-        task["taskDetails"] = taskDetailsTextView.text
-        task["taskCreatorName"] = userDetails.name
-        task["taskCreatorEmail"] = userDetails.email
-        task["taskAssignedSearch"] = [assignees.email]
-        task["taskStatus"] = TaskStatus.New.rawValue
+        task.setObject(TaskHelper().generateTaskID, forKey: "taskID")
+        task.setObject(taskDetailsTextView.text, forKey: "taskDetails")
+        task.setObject(userDetails.name, forKey: "taskCreatorName")
+        task.setObject(userDetails.email, forKey: "taskCreatorEmail")
+        task.setObject([assignees.email], forKey: "taskAssignedSearch")
+        task.setObject(TaskStatus.New.rawValue, forKey: "taskStatus")
         
         if assigneeCell.detailTextLabel?.text != userDetails.email {
-            task["taskAssignedDateTime"] = NSDate()
+            task.setObject(NSDate(), forKey: "taskAssignedDateTime")
         }
         
-        task["taskAssignedTo"] = [["name": assignees.name, "email": assignees.email]]
+        task.setObject([["name": assignees.name, "email": assignees.email]], forKey: "taskAssignedTo")
+        
         task.saveEventually()
         task.pinInBackgroundWithBlock {
             (success: Bool, error: NSError?) -> Void in
@@ -169,7 +169,7 @@ class CreateTaskVC: UITableViewController, UITextViewDelegate, AssigneeSelection
 // MARK: - Display Controls
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        let length = count(textView.text) - range.length + count(text)
+        let length = textView.text.characters.count - range.length + text.characters.count
         if length > 0 {
             saveButton.enabled = true
         } else {

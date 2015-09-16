@@ -15,13 +15,13 @@ class ParseHelper {
     func getUserRelatedTasksQuery() -> PFQuery {
         let userDetails = Authentication().getUserDetails()
         
-        var createdBySelf = PFQuery(className: "Task")
+        let createdBySelf = PFQuery(className: "Task")
         createdBySelf.whereKey("taskCreatorEmail", equalTo: userDetails.email)
         
-        var assignedToSelf = PFQuery(className: "Task")
+        let assignedToSelf = PFQuery(className: "Task")
         assignedToSelf.whereKey("taskAssignedSearch", equalTo: userDetails.email)
         
-        var query = PFQuery.orQueryWithSubqueries([
+        let query = PFQuery.orQueryWithSubqueries([
             createdBySelf,
             assignedToSelf])
         query.orderByDescending("updatedAt")
@@ -30,8 +30,7 @@ class ParseHelper {
     }
     
     func getUserRelatedTasksWithSpecifiedAssigneeQuery(assignees: NSArray) -> PFQuery {
-        var query = PFQuery(className: "Task")
-        let userDetails = Authentication().getUserDetails()
+        let query = PFQuery(className: "Task")
         query.whereKey("taskAssignedTo", containsAllObjectsInArray: assignees as [AnyObject])
         query.orderByDescending("updatedAt")
         
@@ -86,7 +85,9 @@ class ParseHelper {
     
     func associateDeviceToUser() {
         let installation = PFInstallation.currentInstallation()
-        installation["user"] = PFUser.currentUser()
+        if let user = PFUser.currentUser() {
+            installation.setObject(user, forKey: "user")
+        }
         installation.saveEventually()
     }
 }

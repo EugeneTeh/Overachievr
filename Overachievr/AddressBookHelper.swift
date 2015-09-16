@@ -20,8 +20,8 @@ class AddressBook {
         if (authorizationStatus == ABAuthorizationStatus.NotDetermined)
         {
             NSLog("requesting access...")
-            var emptyDictionary: CFDictionaryRef?
-            var addressBook = !(ABAddressBookCreateWithOptions(emptyDictionary, nil) != nil)
+//            let emptyDictionary: CFDictionaryRef?
+            let addressBook = !(ABAddressBookCreate() != nil)
             ABAddressBookRequestAccessWithCompletion(addressBook,{success, error in
                 if success {
                     self.processContactNames()
@@ -43,9 +43,9 @@ class AddressBook {
     
     func processContactNames() {
         var errorRef: Unmanaged<CFError>?
-        var addressBook: ABAddressBookRef? = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
+        let addressBook: ABAddressBookRef? = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
         
-        var contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
+        let contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
         
         for record:ABRecordRef in contactList {
             getContact(record)
@@ -55,14 +55,12 @@ class AddressBook {
     }
     
     func getContact(addressBookRecord: ABRecordRef) {
-        let realm = Realm()
-        
-        
+        let realm = try! Realm()
         let emailArray:ABMultiValueRef = extractABEmailRef(ABRecordCopyValue(addressBookRecord, kABPersonEmailProperty))!
         
         for (var j = 0; j < ABMultiValueGetCount(emailArray); ++j) {
-            var emailArray = ABMultiValueCopyValueAtIndex(emailArray, j)
-            var emailExtract = extractABEmailAddress(emailArray)
+            let emailArray = ABMultiValueCopyValueAtIndex(emailArray, j)
+            let emailExtract = extractABEmailAddress(emailArray)
             
             // check email validity
             if let email = emailExtract {
@@ -77,7 +75,7 @@ class AddressBook {
                         contactObject.contactEmail = email
                         contactObject.contactName = name
                         
-                        realm.write {realm.add(contactObject)}
+                        try! realm.write {realm.add(contactObject)}
                     }
                 }
             }
@@ -108,7 +106,7 @@ class AddressBook {
     
     func extractABEmailAddress (abEmailAddress: Unmanaged<AnyObject>!) -> String? {
         if let ab = abEmailAddress {
-            return Unmanaged.fromOpaque(abEmailAddress.toOpaque()).takeUnretainedValue() as CFStringRef as String
+            return Unmanaged.fromOpaque(ab.toOpaque()).takeUnretainedValue() as CFStringRef as String
         }
         return nil
     }

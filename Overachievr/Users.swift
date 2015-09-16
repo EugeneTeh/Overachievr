@@ -22,7 +22,7 @@ class Users: Object {
     dynamic var userSessionID: String = ""
     dynamic var userAPNSToken: String = ""
     dynamic var userAuthSource: String = ""
-    dynamic var userLinkedEmails = List<LinkedEmails>()
+//    dynamic var userLinkedEmails = List<LinkedEmails>()
     
     
     override static func primaryKey() -> String {

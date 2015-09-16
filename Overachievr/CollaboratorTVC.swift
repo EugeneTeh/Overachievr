@@ -18,7 +18,7 @@ class CollaboratorTVC: PFQueryTableViewController {
         super.init(style: style, className: className)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         // Configure the PFQueryTableView
@@ -46,7 +46,7 @@ class CollaboratorTVC: PFQueryTableViewController {
             }
             
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            println("View refreshed")
+            print("View refreshed")
         })
     }
     
@@ -69,7 +69,7 @@ class CollaboratorTVC: PFQueryTableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
+    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         let uniqueSections = getUniqueSectionsWithTasks()
         let currentStatus = uniqueSections[indexPath.section].tasks[indexPath.row].valueForKey("taskStatus") as! String
         
@@ -79,7 +79,7 @@ class CollaboratorTVC: PFQueryTableViewController {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
                 self.updateCloudData(.Rejected, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, indexPath: indexPath)
+                self.moveRowToSection(uniqueSections, sourceSection: .New, targetSection: .Rejected, indexPath: indexPath)
                 
             })
             
@@ -87,7 +87,7 @@ class CollaboratorTVC: PFQueryTableViewController {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
                 self.updateCloudData(.Completed, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, indexPath: indexPath)
+                self.moveRowToSection(uniqueSections, sourceSection: .Redo, targetSection: .Completed, indexPath: indexPath)
                 
             })
             completeAction.backgroundColor = UIColor(red: 132, green: 216, blue: 126)
@@ -100,7 +100,7 @@ class CollaboratorTVC: PFQueryTableViewController {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
                 self.updateCloudData(.Redo, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, indexPath: indexPath)
+                self.moveRowToSection(uniqueSections, sourceSection: .Completed, targetSection: .Redo, indexPath: indexPath)
                 
             })
             redoAction.backgroundColor = UIColor.grayColor()
@@ -126,9 +126,9 @@ class CollaboratorTVC: PFQueryTableViewController {
         
     }
     
-    func moveRowToSection(sectionsOrigin: [(sectionName: String, tasks:[PFObject])], indexPath: NSIndexPath) {
+    func moveRowToSection(sectionsOrigin: [(sectionName: String, tasks:[PFObject])], sourceSection: TaskStatus, targetSection: TaskStatus, indexPath: NSIndexPath) {
 
-        
+        /*
         let sectionsNew = getUniqueSectionsWithTasks()
         
         tableView.beginUpdates()
@@ -153,12 +153,12 @@ class CollaboratorTVC: PFQueryTableViewController {
             tableView.insertRowsAtIndexPaths(path, withRowAnimation: .None)
         }
         tableView.endUpdates()
-
+        */
         
         
-        /*
-        let source = getSectionIndexAndRows(sourceSection, uniqueSections: sectionOrigins)
-        let target = getSectionIndexAndRows(targetSection, uniqueSections: sectionOrigins)
+        
+        let source = getSectionIndexAndRows(sourceSection, uniqueSections: sectionsOrigin)
+        let target = getSectionIndexAndRows(targetSection, uniqueSections: sectionsOrigin)
         // target section exists
         if let targetSectionIndex = target.index {
             let toIndexPath = NSIndexPath(forRow: 0, inSection: targetSectionIndex)
@@ -205,7 +205,7 @@ class CollaboratorTVC: PFQueryTableViewController {
             tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: source.index!)], withRowAnimation: .Automatic)
             tableView.endUpdates()
         }
-        */
+        
     }
     
     func migrateSection(sectionOrigins: [(sectionName: String, tasks:[PFObject])], sourceSectionIndex: Int, indexPath: NSIndexPath) {
@@ -248,11 +248,7 @@ class CollaboratorTVC: PFQueryTableViewController {
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if let objects = objects {
-            return getUniqueSectionsWithTasks().count
-        } else {
-            return 1
-        }
+        return getUniqueSectionsWithTasks().count
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -309,7 +305,7 @@ class CollaboratorTVC: PFQueryTableViewController {
     
     func unique<S: SequenceType, E: Hashable where E==S.Generator.Element>(source: S) -> [E] {
         var seen: [E:Bool] = [:]
-        return filter(source) { seen.updateValue(true, forKey: $0) == nil }
+        return source.filter { seen.updateValue(true, forKey: $0) == nil }
     }
 
     
