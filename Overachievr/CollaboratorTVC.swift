@@ -60,7 +60,6 @@ class CollaboratorTVC: PFQueryTableViewController {
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         let uniqueSections = getUniqueSectionsWithTasks()
         let currentStatus = uniqueSections[indexPath.section].tasks[indexPath.row].valueForKey("taskStatus") as! String
-
         switch (currentStatus) {
         case TaskStatus.New.rawValue, TaskStatus.Completed.rawValue, TaskStatus.Redo.rawValue:
             return true
@@ -79,7 +78,7 @@ class CollaboratorTVC: PFQueryTableViewController {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
                 self.updateCloudData(.Rejected, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, indexPath: indexPath)
+                self.moveRowToSection(uniqueSections, sourceSection: .New, targetSection: .Rejected, indexPath: indexPath)
                 
             })
             
@@ -87,7 +86,7 @@ class CollaboratorTVC: PFQueryTableViewController {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
                 self.updateCloudData(.Completed, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, indexPath: indexPath)
+                self.moveRowToSection(uniqueSections, sourceSection: .Redo, targetSection: .Completed, indexPath: indexPath)
                 
             })
             completeAction.backgroundColor = UIColor(red: 132, green: 216, blue: 126)
@@ -100,7 +99,7 @@ class CollaboratorTVC: PFQueryTableViewController {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
                 self.updateCloudData(.Redo, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, indexPath: indexPath)
+                self.moveRowToSection(uniqueSections, sourceSection: .Completed, targetSection: .Redo, indexPath: indexPath)
                 
             })
             redoAction.backgroundColor = UIColor.grayColor()
@@ -110,11 +109,9 @@ class CollaboratorTVC: PFQueryTableViewController {
         default:
             return nil
         }
-
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-
     }
     
     func updateCloudData(status: TaskStatus, indexPath: NSIndexPath, uniqueSections: [(sectionName: String, tasks:[PFObject])]) {
@@ -126,39 +123,37 @@ class CollaboratorTVC: PFQueryTableViewController {
         
     }
     
-    func moveRowToSection(sectionsOrigin: [(sectionName: String, tasks:[PFObject])], indexPath: NSIndexPath) {
-
-        
+    func moveRowToSection(sectionsOrigin: [(sectionName: String, tasks:[PFObject])], sourceSection: TaskStatus, targetSection: TaskStatus, indexPath: NSIndexPath) {
+        /*
         let sectionsNew = getUniqueSectionsWithTasks()
         
         tableView.beginUpdates()
         // If number of sections is more than before
         if sectionsOrigin.count < sectionsNew.count {
-            tableView.insertSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-            
+        tableView.insertSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+        
         // If number of sections is less than before
         } else if sectionsOrigin.count > sectionsNew.count {
-            tableView.deleteSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
-
+        tableView.deleteSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
         }
         
         for section in sectionsNew {
-            var sec = 0
-            var path: [NSIndexPath] = []
-            for var row=0; row<section.tasks.count; row++ {
-                path += [NSIndexPath(forRow: row, inSection: sec)]
-            }
-            println(section.tasks.count)
-            println(path.count)
-            tableView.insertRowsAtIndexPaths(path, withRowAnimation: .None)
+        var sec = 0
+        var path: [NSIndexPath] = []
+        for var row=0; row<section.tasks.count; row++ {
+        path += [NSIndexPath(forRow: row, inSection: sec)]
+        }
+        println(section.tasks.count)
+        println(path.count)
+        tableView.insertRowsAtIndexPaths(path, withRowAnimation: .None)
         }
         tableView.endUpdates()
-
+        */
         
         
-        /*
-        let source = getSectionIndexAndRows(sourceSection, uniqueSections: sectionOrigins)
-        let target = getSectionIndexAndRows(targetSection, uniqueSections: sectionOrigins)
+        
+        let source = getSectionIndexAndRows(sourceSection, uniqueSections: sectionsOrigin)
+        let target = getSectionIndexAndRows(targetSection, uniqueSections: sectionsOrigin)
         // target section exists
         if let targetSectionIndex = target.index {
             let toIndexPath = NSIndexPath(forRow: 0, inSection: targetSectionIndex)
@@ -197,7 +192,7 @@ class CollaboratorTVC: PFQueryTableViewController {
                 
             }
             
-        // target section does not exist
+            // target section does not exist
         } else {
             tableView.beginUpdates()
             tableView.insertSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
@@ -205,7 +200,7 @@ class CollaboratorTVC: PFQueryTableViewController {
             tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: source.index!)], withRowAnimation: .Automatic)
             tableView.endUpdates()
         }
-        */
+        
     }
     
     func migrateSection(sectionOrigins: [(sectionName: String, tasks:[PFObject])], sourceSectionIndex: Int, indexPath: NSIndexPath) {
@@ -228,7 +223,6 @@ class CollaboratorTVC: PFQueryTableViewController {
         }
         // move changed row to newly inserted section
         tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
-
     }
     
     func getSectionIndexAndRows(title: TaskStatus, uniqueSections: [(sectionName: String, tasks:[PFObject])]) -> (index: Int?, rows: Int) {
