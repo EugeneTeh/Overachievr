@@ -58,28 +58,36 @@ class AddressBook {
         let realm = try! Realm()
         let emailArray:ABMultiValueRef = extractABEmailRef(ABRecordCopyValue(addressBookRecord, kABPersonEmailProperty))!
         
-        for (var j = 0; j < ABMultiValueGetCount(emailArray); ++j) {
-            let emailArray = ABMultiValueCopyValueAtIndex(emailArray, j)
-            let emailExtract = extractABEmailAddress(emailArray)
-            
-            // check email validity
-            if let email = emailExtract {
-                if isValidEmail(email) {
-                    let contactObject = Contacts()
-                    let name = getContactName(addressBookRecord)
-                    
-                    let contactExists = realm.objects(Contacts).filter("contactEmail = '\(email)'").count
-                    
-                    
-                    if contactExists < 1 {
-                        contactObject.contactEmail = email
-                        contactObject.contactName = name
+        //get existing contacts
+        var existingContacts: [String] = []
+        let contacts = realm.objects(Contacts)
+        for contact in contacts {
+            existingContacts += [contact.contactEmail]
+        }
+        try! realm.write {
+            for (var j = 0; j < ABMultiValueGetCount(emailArray); ++j) {
+                let emailArray = ABMultiValueCopyValueAtIndex(emailArray, j)
+                let emailExtract = self.extractABEmailAddress(emailArray)
+                
+                
+                
+                // check email validity
+                if let email = emailExtract {
+                    if self.isValidEmail(email) {
+                        let contactObject = Contacts()
+                        let name = self.getContactName(addressBookRecord)
                         
-                        try! realm.write {realm.add(contactObject)}
+                        if !existingContacts.contains(email) {
+                            contactObject.contactEmail = email
+                            contactObject.contactName = name
+                            realm.add(contactObject)
+                            existingContacts += [email]
+                        }
                     }
                 }
+                
             }
-            
+
         }
     }
     

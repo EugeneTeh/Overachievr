@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import RealmSwift 
-
+import RealmSwift
 
 class SelectContactsTVC: UITableViewController {
     
@@ -46,19 +45,40 @@ class SelectContactsTVC: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
         return contactList.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("contactCell", forIndexPath: indexPath) 
+        var cell = tableView.dequeueReusableCellWithIdentifier("contactCell", forIndexPath: indexPath)
         let contact = contactList[indexPath.row]
         
-        cell.textLabel!.text = contact.contactName
-        cell.detailTextLabel!.text = contact.contactEmail
-
+        if contact.contactName == "" {
+            cell = UITableViewCell(style: UITableViewCellStyle.Default,
+                reuseIdentifier: "contactCell")
+            
+            cell.textLabel?.text = contact.contactEmail
+        } else {
+            cell.textLabel?.text = contact.contactName
+            cell.detailTextLabel?.text = contact.contactEmail
+        }
+        
+        
+//        if #available(iOS 9.0, *) {
+//            let contactsHelper = ContactsHelper()
+//            let contacts = contactsHelper.getContacts()
+//            
+//            if contacts.count > 1 {
+//                let contact = contacts[indexPath.row]
+//                cell.textLabel?.text = contactsHelper.getFullName(contact)
+//                for email in contact.emailAddresses {
+//                    cell.detailTextLabel?.text = email.value as? String
+//                }
+//                
+//            }
+//        } else {
+//            
+//        }
         return cell
     }
 

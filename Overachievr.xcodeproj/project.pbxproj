@@ -18,6 +18,7 @@
 		A706F5001B89194700ADA085 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F4FF1B89194700ADA085 /* KeyboardHelper.swift */; };
 		A706F5021B8AD51600ADA085 /* MainContainerGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F5011B8AD51600ADA085 /* MainContainerGestures.swift */; };
 		A706F53C1B8E82EC00ADA085 /* CollaboratorTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */; };
+		A71B9DC71BA9F29F00C21A1C /* ContactsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B9DC61BA9F29F00C21A1C /* ContactsHelper.swift */; settings = {ASSET_TAGS = (); }; };
 		A73FB84F1B98316F00815B76 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB84E1B98316F00815B76 /* SignUpVC.swift */; };
 		A73FB8531B9E8A0800815B76 /* TaskGroupsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB8521B9E8A0800815B76 /* TaskGroupsTVC.swift */; };
 		A73FB8551B9E8A8900815B76 /* TGFillerPanelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73FB8541B9E8A8900815B76 /* TGFillerPanelExt.swift */; };
@@ -91,6 +92,7 @@
 		A715A1F71B9718FD00C4FFDA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A715A1F91B97190900C4FFDA /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A715A1FB1B97191800C4FFDA /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		A71B9DC61BA9F29F00C21A1C /* ContactsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsHelper.swift; sourceTree = "<group>"; };
 		A73FB84E1B98316F00815B76 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		A73FB8521B9E8A0800815B76 /* TaskGroupsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskGroupsTVC.swift; sourceTree = "<group>"; };
 		A73FB8541B9E8A8900815B76 /* TGFillerPanelExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGFillerPanelExt.swift; sourceTree = "<group>"; };
@@ -196,8 +198,8 @@
 		A706F53A1B8D47AE00ADA085 /* Task Groups Tab */ = {
 			isa = PBXGroup;
 			children = (
-				A77135F11B807E2E0065A24E /* CreateTaskVC.swift */,
 				A77135F01B807E2E0065A24E /* SelectContactsTVC.swift */,
+				A77135F11B807E2E0065A24E /* CreateTaskVC.swift */,
 				A706F53B1B8E82EC00ADA085 /* CollaboratorTVC.swift */,
 				A73FB8521B9E8A0800815B76 /* TaskGroupsTVC.swift */,
 				A73FB8541B9E8A8900815B76 /* TGFillerPanelExt.swift */,
@@ -307,9 +309,9 @@
 		A77136061B807EA30065A24E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A77136081B807EBF0065A24E /* Contacts.swift */,
 				A706F4D81B829C8D00ADA085 /* Users.swift */,
 				A77136071B807EBF0065A24E /* Tasks.swift */,
-				A77136081B807EBF0065A24E /* Contacts.swift */,
 				A77135CC1B807DB60065A24E /* Overachievr.xcdatamodeld */,
 			);
 			name = Model;
@@ -321,6 +323,7 @@
 			children = (
 				A768EB951BA5D2EC009C82AA /* Miscellaneous */,
 				A771360D1B807ED50065A24E /* AddressBookHelper.swift */,
+				A71B9DC61BA9F29F00C21A1C /* ContactsHelper.swift */,
 				A771360E1B807ED50065A24E /* AuthenticationHelper.swift */,
 				A771360F1B807ED50065A24E /* TaskHelper.swift */,
 				A706F4DF1B854DEB00ADA085 /* NotificationHelper.swift */,
@@ -534,6 +537,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A71B9DC71BA9F29F00C21A1C /* ContactsHelper.swift in Sources */,
 				A771360A1B807EBF0065A24E /* Contacts.swift in Sources */,
 				A77136021B807E7E0065A24E /* AppDelegate.swift in Sources */,
 				A706F5021B8AD51600ADA085 /* MainContainerGestures.swift in Sources */,

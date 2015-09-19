@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="uv7-Qu-6Y0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="uv7-Qu-6Y0">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -31,7 +32,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f3q-tm-nK5">
-                                                    <rect key="frame" x="15" y="28.5" width="40.5" height="13.5"/>
+                                                    <rect key="frame" x="15" y="28.5" width="35.5" height="13"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -46,10 +47,10 @@
                             <tableViewSection headerTitle="Task Details:" id="586-hF-hhv">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="descriptionCell" rowHeight="100" id="fCM-Wx-qCM">
-                                        <rect key="frame" x="0.0" y="205.5" width="600" height="50"/>
+                                        <rect key="frame" x="0.0" y="205.5" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" tableViewCell="fCM-Wx-qCM" id="oVH-pa-ek7">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6mC-a9-3oO">
@@ -97,7 +98,7 @@
             </objects>
             <point key="canvasLocation" x="4172" y="-531"/>
         </scene>
-        <!--Select Contact-->
+        <!--Select ContactsTVC-->
         <scene sceneID="xQ8-9J-ox4">
             <objects>
                 <tableViewController id="PVp-xv-460" customClass="SelectContactsTVC" customModule="Overachievr" customModuleProvider="target" sceneMemberID="viewController">
@@ -136,7 +137,7 @@
                             <outlet property="delegate" destination="PVp-xv-460" id="V0U-Pe-hYu"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Select Contact" id="rAk-Cm-udY"/>
+                    <navigationItem key="navigationItem" id="rAk-Cm-udY"/>
                     <connections>
                         <segue destination="zgh-Gs-e4g" kind="unwind" identifier="unwindToCreateTask" unwindAction="unwindToCreateTask:" id="o4Y-Sr-W8E"/>
                     </connections>
@@ -158,10 +159,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoBackground" translatesAutoresizingMaskIntoConstraints="NO" id="U1m-aQ-tjY">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="LogoBackground" translatesAutoresizingMaskIntoConstraints="NO" id="U1m-aQ-tjY">
                                 <rect key="frame" x="-9" y="-15" width="618" height="629"/>
                             </imageView>
-                            <button contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWC-mL-uAx">
+                            <button contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWC-mL-uAx">
                                 <rect key="frame" x="40" y="429" width="520" height="88"/>
                                 <state key="normal" image="FB-Login">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -355,7 +356,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" rowHeight="65" id="FNC-Xp-P80" customClass="PFTableViewCell">
-                                <rect key="frame" x="0.0" y="86" width="600" height="65"/>
+                                <rect key="frame" x="0.0" y="113.5" width="600" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FNC-Xp-P80" id="4eQ-aJ-hlv">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="64.5"/>

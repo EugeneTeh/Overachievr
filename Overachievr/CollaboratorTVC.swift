@@ -78,18 +78,17 @@ class CollaboratorTVC: PFQueryTableViewController {
             let rejectAction = UITableViewRowAction(style: .Default, title: "Reject", handler: {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
+                tableView.setEditing(false, animated: true);
                 self.updateCloudData(.Rejected, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, sourceSection: .New, targetSection: .Rejected, indexPath: indexPath)
-                
             })
             
             let completeAction = UITableViewRowAction(style: .Default, title: "Complete", handler: {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
+                tableView.setEditing(false, animated: true);
                 self.updateCloudData(.Completed, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, sourceSection: .Redo, targetSection: .Completed, indexPath: indexPath)
-                
             })
+            
             completeAction.backgroundColor = UIColor(red: 132, green: 216, blue: 126)
             rejectAction.backgroundColor = UIColor.grayColor()
             
@@ -99,9 +98,8 @@ class CollaboratorTVC: PFQueryTableViewController {
             let redoAction = UITableViewRowAction(style: .Default, title: "Redo", handler: {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
+                tableView.setEditing(false, animated: true);
                 self.updateCloudData(.Redo, indexPath: indexPath, uniqueSections: uniqueSections)
-                self.moveRowToSection(uniqueSections, sourceSection: .Completed, targetSection: .Redo, indexPath: indexPath)
-                
             })
             redoAction.backgroundColor = UIColor.grayColor()
             
@@ -110,8 +108,8 @@ class CollaboratorTVC: PFQueryTableViewController {
         default:
             return nil
         }
-
     }
+
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 
@@ -121,10 +119,12 @@ class CollaboratorTVC: PFQueryTableViewController {
         let currentObject = uniqueSections[indexPath.section].tasks[indexPath.row]
         
         currentObject.setValue(status.rawValue, forKey: "taskStatus")
-        currentObject.pinInBackground()
+        currentObject.pinInBackgroundWithBlock({ (sucess: Bool, error : NSError?) -> Void in
+            self.tableView.reloadData()
+            })
         currentObject.saveEventually()
-        
     }
+    
     
     func moveRowToSection(sectionsOrigin: [(sectionName: String, tasks:[PFObject])], sourceSection: TaskStatus, targetSection: TaskStatus, indexPath: NSIndexPath) {
 
