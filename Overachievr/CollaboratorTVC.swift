@@ -39,7 +39,6 @@ class CollaboratorTVC: PFQueryTableViewController {
     func refreshView() {
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.loadObjects()
-            self.tableView.reloadData()
             
             if (self.refreshControl!.refreshing) {
                 self.refreshControl!.endRefreshing()
@@ -77,6 +76,7 @@ class CollaboratorTVC: PFQueryTableViewController {
             let rejectAction = UITableViewRowAction(style: .Default, title: "Reject", handler: {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
+                tableView.setEditing(false, animated: true);
                 self.updateCloudData(.Rejected, indexPath: indexPath, uniqueSections: uniqueSections)
                 self.moveRowToSection(uniqueSections, sourceSection: .New, targetSection: .Rejected, indexPath: indexPath)
                 
@@ -85,6 +85,7 @@ class CollaboratorTVC: PFQueryTableViewController {
             let completeAction = UITableViewRowAction(style: .Default, title: "Complete", handler: {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
+                tableView.setEditing(false, animated: true);
                 self.updateCloudData(.Completed, indexPath: indexPath, uniqueSections: uniqueSections)
                 self.moveRowToSection(uniqueSections, sourceSection: .Redo, targetSection: .Completed, indexPath: indexPath)
                 
@@ -98,6 +99,7 @@ class CollaboratorTVC: PFQueryTableViewController {
             let redoAction = UITableViewRowAction(style: .Default, title: "Redo", handler: {
                 (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
                 
+                tableView.setEditing(false, animated: true);
                 self.updateCloudData(.Redo, indexPath: indexPath, uniqueSections: uniqueSections)
                 self.moveRowToSection(uniqueSections, sourceSection: .Completed, targetSection: .Redo, indexPath: indexPath)
                 
@@ -120,6 +122,7 @@ class CollaboratorTVC: PFQueryTableViewController {
         currentObject.setValue(status.rawValue, forKey: "taskStatus")
         currentObject.pinInBackground()
         currentObject.saveEventually()
+        self.tableView.reloadData()
         
     }
     
@@ -150,57 +153,26 @@ class CollaboratorTVC: PFQueryTableViewController {
         tableView.endUpdates()
         */
         
+        tableView.reloadData()
         
+        let currentObject = sectionsOrigin[indexPath.section].tasks[indexPath.row]
         
-        let source = getSectionIndexAndRows(sourceSection, uniqueSections: sectionsOrigin)
-        let target = getSectionIndexAndRows(targetSection, uniqueSections: sectionsOrigin)
-        // target section exists
-        if let targetSectionIndex = target.index {
-            let toIndexPath = NSIndexPath(forRow: 0, inSection: targetSectionIndex)
-            // target section is first section
-            if targetSectionIndex == 0 {
-                // is final remaining row in section
-                if source.rows == 1 {
-                    tableView.beginUpdates()
-                    tableView.deleteSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
-                    tableView.insertRowsAtIndexPaths([toIndexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-                    tableView.endUpdates()
-                } else {
-                    tableView.beginUpdates()
-                    tableView.moveRowAtIndexPath(indexPath, toIndexPath: toIndexPath)
-                    tableView.endUpdates()
-                }
-            } else {
-                var rowsToDelete:[NSIndexPath] = [NSIndexPath(forRow: 0, inSection: targetSectionIndex)]
-                var rowsToInsert:[NSIndexPath] = [NSIndexPath(forRow: 0, inSection: 0)]
-                if target.rows > source.rows {
-                    for var i=1; i<(target.rows - source.rows - 1); i++ {
-                        rowsToDelete += [NSIndexPath(forRow: i, inSection: targetSectionIndex)]
-                        rowsToInsert += [NSIndexPath(forRow: i, inSection: 0)]
-                    }
-                } else if target.rows < source.rows {
-                    for var i=1; i<(source.rows - target.rows - 1); i++ {
-                        rowsToDelete += [NSIndexPath(forRow: i, inSection: targetSectionIndex)]
-                        rowsToInsert += [NSIndexPath(forRow: i, inSection: 0)]
-                    }
-                }
-                
-                tableView.beginUpdates()
-                tableView.deleteRowsAtIndexPaths(rowsToDelete, withRowAnimation: .Automatic)
-                tableView.insertRowsAtIndexPaths(rowsToInsert, withRowAnimation: .Automatic)
-                tableView.endUpdates()
-                
-            }
-            
-            // target section does not exist
-        } else {
-            tableView.beginUpdates()
-            tableView.insertSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-            tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
-            tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: source.index!)], withRowAnimation: .Automatic)
-            tableView.endUpdates()
+        let source = getIndexAndRows(currentObject, uniqueSections: getUniqueSectionsWithTasks())
+        let target = getIndexAndRows(currentObject, uniqueSections: getUniqueSectionsWithTasks())
+        
+        tableView.beginUpdates()
+        
+        tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: source.rows , inSection: source.index!)], withRowAnimation: .Automatic)
+        if(getUniqueSectionsWithTasks()[source.index!].tasks.count == 1){
+            tableView.deleteSections(NSIndexSet(index: source.index!), withRowAnimation: .Automatic)
         }
         
+        if(getUniqueSectionsWithTasks()[target.index!].tasks.count == 1){
+            tableView.insertSections(NSIndexSet(index: target.index!), withRowAnimation: .Automatic)
+        }
+        tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: target.rows, inSection: target.index!)], withRowAnimation: .Automatic)
+        
+        tableView.endUpdates()
     }
     
     func migrateSection(sectionOrigins: [(sectionName: String, tasks:[PFObject])], sourceSectionIndex: Int, indexPath: NSIndexPath) {
@@ -225,13 +197,15 @@ class CollaboratorTVC: PFQueryTableViewController {
         tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
     }
     
-    func getSectionIndexAndRows(title: TaskStatus, uniqueSections: [(sectionName: String, tasks:[PFObject])]) -> (index: Int?, rows: Int) {
+    func getIndexAndRows(object: PFObject, uniqueSections: [(sectionName: String, tasks:[PFObject])]) -> (index: Int?, rows: Int) {
         for var i=0;i<uniqueSections.count;i++ {
-            if title.rawValue == uniqueSections[i].sectionName {
-                return (i,uniqueSections[i].tasks.count)
+            for var j=0;j<uniqueSections[i].tasks.count;j++ {
+                if object == uniqueSections[i].tasks[j] {
+                    return (i,j)
+                }
             }
         }
-        return (nil,0)
+        return (0,0)
     }
 
     // MARK: - Table view data source
@@ -239,6 +213,11 @@ class CollaboratorTVC: PFQueryTableViewController {
     override func queryForTable() -> PFQuery {
         let parseHelper = ParseHelper()
         return parseHelper.getUserRelatedTasksWithSpecifiedAssigneeQuery(assignees).fromLocalDatastore()
+    }
+    
+    override func objectsDidLoad(error: NSError?) {
+        super.objectsDidLoad(error)
+        self.tableView.reloadData()
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
